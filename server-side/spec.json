@@ -1,767 +1,1098 @@
 {
-    "openapi" : "3.0.0",
-    "security" : [ {
-      "bearerAuth" : [ ]
-    } ],
-    "paths" : {
-      "/accounts" : {
-        "get" : {
-          "summary" : "accounts",
-          "description" : "This is an endpoint to retreive all account in Pepperi's system",
-          "parameters" : [ {
-            "name" : "Fields",
-            "in" : "query",
-            "description" : "List of fields (comma seperated) to retrieve from the object",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "page",
-            "in" : "query",
-            "description" : "page number to retrieve (zero based)",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : 0
-            }
-          }, {
-            "name" : "page_size",
-            "in" : "query",
-            "description" : "number of items each page contains",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : -1
-            }
-          }, {
-            "name" : "where",
-            "in" : "query",
-            "description" : "where clause to filter returned objects",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "include_deleted",
-            "in" : "query",
-            "description" : "wether to retrieve hidden items",
-            "schema" : {
-              "type" : "boolean"
-            }
-          }, {
-            "name" : "include_count",
-            "in" : "query",
-            "description" : "returns on the headers the number of objects exists in the system",
-            "schema" : {
-              "type" : "boolean"
-            }
-          } ],
-          "responses" : {
-            "200" : {
-              "description" : "OK"
-            }
-          },
-          "tags" : [ "Accounts" ]
-        }
-      },
-      "/account_users" : {
-        "get" : {
-          "summary" : "Account Users",
-          "description" : "This is an endpoint to retreive all account users in Pepperi's system",
-          "parameters" : [ {
-            "name" : "Fields",
-            "in" : "query",
-            "description" : "List of fields (comma seperated) to retrieve from the object",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "page",
-            "in" : "query",
-            "description" : "page number to retrieve (zero based)",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : 0
-            }
-          }, {
-            "name" : "page_size",
-            "in" : "query",
-            "description" : "number of items each page contains",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : -1
-            }
-          }, {
-            "name" : "where",
-            "in" : "query",
-            "description" : "where clause to filter returned objects",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "include_deleted",
-            "in" : "query",
-            "description" : "wether to retrieve hidden items",
-            "schema" : {
-              "type" : "boolean"
-            }
-          }, {
-            "name" : "include_count",
-            "in" : "query",
-            "description" : "returns on the headers the number of objects exists in the system",
-            "schema" : {
-              "type" : "boolean"
-            }
-          } ],
-          "responses" : {
-            "200" : {
-              "description" : "OK"
-            }
-          },
-          "tags" : [ "Account Users" ]
-        }
-      },
-      "/accounts/{id}" : {
-        "get" : {
-          "summary" : "Account by id",
-          "description" : "This is an endpoint to retreive an account by a specific internal ID",
-          "parameters" : [ {
-            "name" : "id",
-            "in" : "path",
-            "description" : "The ID of an account",
-            "schema" : {
-              "type" : "integer"
-            },
-            "required" : true
-          }, {
-            "name" : "Fields",
-            "in" : "query",
-            "description" : "List of fields (comma seperated) to retrieve from the object",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "page",
-            "in" : "query",
-            "description" : "page number to retrieve (zero based)",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : 0
-            }
-          }, {
-            "name" : "page_size",
-            "in" : "query",
-            "description" : "number of items each page contains",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : -1
-            }
-          }, {
-            "name" : "where",
-            "in" : "query",
-            "description" : "where clause to filter returned objects",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "include_deleted",
-            "in" : "query",
-            "description" : "wether to retrieve hidden items",
-            "schema" : {
-              "type" : "boolean"
-            }
-          }, {
-            "name" : "include_count",
-            "in" : "query",
-            "description" : "returns on the headers the number of objects exists in the system",
-            "schema" : {
-              "type" : "boolean"
-            }
-          } ],
-          "responses" : {
-            "200" : {
-              "description" : "OK"
-            }
-          },
-          "tags" : [ "Accounts" ]
-        }
-      },
-      "/items" : {
-        "get" : {
-          "summary" : "Items",
-          "description" : "This is an endpoint to retreive all items in Pepperi's system",
-          "parameters" : [ {
-            "name" : "Fields",
-            "in" : "query",
-            "description" : "List of fields (comma seperated) to retrieve from the object",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "page",
-            "in" : "query",
-            "description" : "page number to retrieve (zero based)",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : 0
-            }
-          }, {
-            "name" : "page_size",
-            "in" : "query",
-            "description" : "number of items each page contains",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : -1
-            }
-          }, {
-            "name" : "where",
-            "in" : "query",
-            "description" : "where clause to filter returned objects",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "include_deleted",
-            "in" : "query",
-            "description" : "wether to retrieve hidden items",
-            "schema" : {
-              "type" : "boolean"
-            }
-          }, {
-            "name" : "include_count",
-            "in" : "query",
-            "description" : "returns on the headers the number of objects exists in the system",
-            "schema" : {
-              "type" : "boolean"
-            }
-          } ],
-          "responses" : {
-            "200" : {
-              "description" : "OK"
-            }
-          },
-          "tags" : [ "Items" ]
-        }
-      },
-      "/items/{id}" : {
-        "get" : {
-          "summary" : "Item by internal id",
-          "description" : "This is an endpoint to retreive an item by a specific internal ID",
-          "parameters" : [ {
-            "name" : "id",
-            "in" : "path",
-            "description" : "The ID of an item",
-            "schema" : {
-              "type" : "integer"
-            },
-            "required" : true
-          }, {
-            "name" : "Fields",
-            "in" : "query",
-            "description" : "List of fields (comma seperated) to retrieve from the object",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "page",
-            "in" : "query",
-            "description" : "page number to retrieve (zero based)",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : 0
-            }
-          }, {
-            "name" : "page_size",
-            "in" : "query",
-            "description" : "number of items each page contains",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : -1
-            }
-          }, {
-            "name" : "where",
-            "in" : "query",
-            "description" : "where clause to filter returned objects",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "include_deleted",
-            "in" : "query",
-            "description" : "wether to retrieve hidden items",
-            "schema" : {
-              "type" : "boolean"
-            }
-          }, {
-            "name" : "include_count",
-            "in" : "query",
-            "description" : "returns on the headers the number of objects exists in the system",
-            "schema" : {
-              "type" : "boolean"
-            }
-          } ],
-          "responses" : {
-            "200" : {
-              "description" : "OK"
-            }
-          },
-          "tags" : [ "Items" ]
-        }
-      },
-      "/item_prices" : {
-        "get" : {
-          "summary" : "Item prices",
-          "description" : "This is an endpoint to retreive all item prices in Pepperi's system",
-          "parameters" : [ {
-            "name" : "Fields",
-            "in" : "query",
-            "description" : "List of fields (comma seperated) to retrieve from the object",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "page",
-            "in" : "query",
-            "description" : "page number to retrieve (zero based)",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : 0
-            }
-          }, {
-            "name" : "page_size",
-            "in" : "query",
-            "description" : "number of items each page contains",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : -1
-            }
-          }, {
-            "name" : "where",
-            "in" : "query",
-            "description" : "where clause to filter returned objects",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "include_deleted",
-            "in" : "query",
-            "description" : "wether to retrieve hidden items",
-            "schema" : {
-              "type" : "boolean"
-            }
-          }, {
-            "name" : "include_count",
-            "in" : "query",
-            "description" : "returns on the headers the number of objects exists in the system",
-            "schema" : {
-              "type" : "boolean"
-            }
-          } ],
-          "responses" : {
-            "200" : {
-              "description" : "OK"
-            }
-          },
-          "tags" : [ "Items" ]
-        }
-      },
-      "/inventory" : {
-        "get" : {
-          "summary" : "Inventory",
-          "description" : "This is an endpoint to retreive all inventory in Pepperi's system",
-          "parameters" : [ {
-            "name" : "Fields",
-            "in" : "query",
-            "description" : "List of fields (comma seperated) to retrieve from the object",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "page",
-            "in" : "query",
-            "description" : "page number to retrieve (zero based)",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : 0
-            }
-          }, {
-            "name" : "page_size",
-            "in" : "query",
-            "description" : "number of items each page contains",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : -1
-            }
-          }, {
-            "name" : "where",
-            "in" : "query",
-            "description" : "where clause to filter returned objects",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "include_deleted",
-            "in" : "query",
-            "description" : "wether to retrieve hidden items",
-            "schema" : {
-              "type" : "boolean"
-            }
-          }, {
-            "name" : "include_count",
-            "in" : "query",
-            "description" : "returns on the headers the number of objects exists in the system",
-            "schema" : {
-              "type" : "boolean"
-            }
-          } ],
-          "responses" : {
-            "200" : {
-              "description" : "OK"
-            }
-          },
-          "tags" : [ "Inventory" ]
-        }
-      },
-      "/activities" : {
-        "get" : {
-          "summary" : "Activities",
-          "description" : "This is an endpoint to retreive all activities in Pepperi's system",
-          "parameters" : [ {
-            "name" : "Fields",
-            "in" : "query",
-            "description" : "List of fields (comma seperated) to retrieve from the object",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "page",
-            "in" : "query",
-            "description" : "page number to retrieve (zero based)",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : 0
-            }
-          }, {
-            "name" : "page_size",
-            "in" : "query",
-            "description" : "number of items each page contains",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : -1
-            }
-          }, {
-            "name" : "where",
-            "in" : "query",
-            "description" : "where clause to filter returned objects",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "include_deleted",
-            "in" : "query",
-            "description" : "wether to retrieve hidden items",
-            "schema" : {
-              "type" : "boolean"
-            }
-          }, {
-            "name" : "include_count",
-            "in" : "query",
-            "description" : "returns on the headers the number of objects exists in the system",
-            "schema" : {
-              "type" : "boolean"
-            }
-          } ],
-          "responses" : {
-            "200" : {
-              "description" : "OK"
-            }
-          },
-          "tags" : [ "Activities" ]
-        }
-      },
-      "/activities/{id}" : {
-        "get" : {
-          "summary" : "Activities by internal id",
-          "description" : "This is an endpoint to retreive an activity by a specific internal ID",
-          "parameters" : [ {
-            "name" : "id",
-            "in" : "path",
-            "description" : "The ID of an activity",
-            "schema" : {
-              "type" : "integer"
-            },
-            "required" : true
-          }, {
-            "name" : "Fields",
-            "in" : "query",
-            "description" : "List of fields (comma seperated) to retrieve from the object",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "page",
-            "in" : "query",
-            "description" : "page number to retrieve (zero based)",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : 0
-            }
-          }, {
-            "name" : "page_size",
-            "in" : "query",
-            "description" : "number of items each page contains",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : -1
-            }
-          }, {
-            "name" : "where",
-            "in" : "query",
-            "description" : "where clause to filter returned objects",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "include_deleted",
-            "in" : "query",
-            "description" : "wether to retrieve hidden items",
-            "schema" : {
-              "type" : "boolean"
-            }
-          }, {
-            "name" : "include_count",
-            "in" : "query",
-            "description" : "returns on the headers the number of objects exists in the system",
-            "schema" : {
-              "type" : "boolean"
-            }
-          } ],
-          "responses" : {
-            "200" : {
-              "description" : "OK"
-            }
-          },
-          "tags" : [ "Activities" ]
-        }
-      },
-      "/transactions" : {
-        "get" : {
-          "summary" : "Transactions",
-          "description" : "This is an endpoint to retreive all transactions in Pepperi's system",
-          "parameters" : [ {
-            "name" : "Fields",
-            "in" : "query",
-            "description" : "List of fields (comma seperated) to retrieve from the object",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "page",
-            "in" : "query",
-            "description" : "page number to retrieve (zero based)",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : 0
-            }
-          }, {
-            "name" : "page_size",
-            "in" : "query",
-            "description" : "number of items each page contains",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : -1
-            }
-          }, {
-            "name" : "where",
-            "in" : "query",
-            "description" : "where clause to filter returned objects",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "include_deleted",
-            "in" : "query",
-            "description" : "wether to retrieve hidden items",
-            "schema" : {
-              "type" : "boolean"
-            }
-          }, {
-            "name" : "include_count",
-            "in" : "query",
-            "description" : "returns on the headers the number of objects exists in the system",
-            "schema" : {
-              "type" : "boolean"
-            }
-          } ],
-          "responses" : {
-            "200" : {
-              "description" : "OK"
-            }
-          },
-          "tags" : [ "Transactions" ]
-        }
-      },
-      "/transactions/{id}" : {
-        "get" : {
-          "summary" : "Transaction by internal id",
-          "description" : "This is an endpoint to retreive a transaction by a specific internal ID",
-          "parameters" : [ {
-            "name" : "id",
-            "in" : "path",
-            "description" : "The ID of a transaction",
-            "schema" : {
-              "type" : "integer"
-            },
-            "required" : true
-          }, {
-            "name" : "Fields",
-            "in" : "query",
-            "description" : "List of fields (comma seperated) to retrieve from the object",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "page",
-            "in" : "query",
-            "description" : "page number to retrieve (zero based)",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : 0
-            }
-          }, {
-            "name" : "page_size",
-            "in" : "query",
-            "description" : "number of items each page contains",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : -1
-            }
-          }, {
-            "name" : "where",
-            "in" : "query",
-            "description" : "where clause to filter returned objects",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "include_deleted",
-            "in" : "query",
-            "description" : "wether to retrieve hidden items",
-            "schema" : {
-              "type" : "boolean"
-            }
-          }, {
-            "name" : "include_count",
-            "in" : "query",
-            "description" : "returns on the headers the number of objects exists in the system",
-            "schema" : {
-              "type" : "boolean"
-            }
-          } ],
-          "responses" : {
-            "200" : {
-              "description" : "OK"
-            }
-          },
-          "tags" : [ "Transactions" ]
-        }
-      },
-      "/transactions/{id}/" : {
-        "post" : {
-          "summary" : "Transactions",
-          "description" : "This is an endpoint to retreive all transactions in Pepperi's system",
-          "parameters" : [ {
-            "name" : "id",
-            "in" : "path",
-            "description" : "The ID of a transaction",
-            "schema" : {
-              "type" : "integer"
-            },
-            "required" : true
-          }, {
-            "name" : "Fields",
-            "in" : "query",
-            "description" : "List of fields (comma seperated) to retrieve from the object",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "page",
-            "in" : "query",
-            "description" : "page number to retrieve (zero based)",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : 0
-            }
-          }, {
-            "name" : "page_size",
-            "in" : "query",
-            "description" : "number of items each page contains",
-            "schema" : {
-              "type" : "integer",
-              "minimum" : -1
-            }
-          }, {
-            "name" : "where",
-            "in" : "query",
-            "description" : "where clause to filter returned objects",
-            "schema" : {
-              "type" : "string"
-            }
-          }, {
-            "name" : "include_deleted",
-            "in" : "query",
-            "description" : "wether to retrieve hidden items",
-            "schema" : {
-              "type" : "boolean"
-            }
-          }, {
-            "name" : "include_count",
-            "in" : "query",
-            "description" : "returns on the headers the number of objects exists in the system",
-            "schema" : {
-              "type" : "boolean"
-            }
-          } ],
-          "responses" : {
-            "200" : {
-              "description" : "OK"
-            }
-          },
-          "tags" : [ "Transactions" ]
-        }
+  "openapi" : "3.0.0",
+  "security" : [ {
+    "bearerAuth" : [ ]
+  } ],
+  "paths" : {
+    "/accounts" : {
+      "get" : {
+        "summary" : "accounts",
+        "description" : "This is an endpoint to retreive all account in Pepperi's system",
+        "parameters" : [ {
+          "name" : "Fields",
+          "in" : "query",
+          "description" : "List of fields (comma seperated) to retrieve from the object",
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "enum" : [ "ExternalID", "Name", "Address", "City" ]
+            }
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page number to retrieve (zero based)",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 0
+          }
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "number of items each page contains",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : -1
+          }
+        }, {
+          "name" : "where",
+          "in" : "query",
+          "description" : "where clause to filter returned objects",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Accounts" ]
       }
     },
-    "components" : {
-      "securitySchemes" : {
-        "bearerAuth" : {
-          "type" : "http",
-          "scheme" : "bearer",
-          "bearerFormat" : "JWT"
-        }
+    "/account_users" : {
+      "get" : {
+        "summary" : "Account Users",
+        "description" : "This is an endpoint to retreive all account users in Pepperi's system",
+        "parameters" : [ {
+          "name" : "Fields",
+          "in" : "query",
+          "description" : "List of fields (comma seperated) to retrieve from the object",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page number to retrieve (zero based)",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 0
+          }
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "number of items each page contains",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : -1
+          }
+        }, {
+          "name" : "where",
+          "in" : "query",
+          "description" : "where clause to filter returned objects",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Account Users" ]
       }
     },
-    "info" : {
-      "title" : "PAPI",
-      "description" : "Aplication contains a list of all Pepperi's API endpoints",
-      "version" : "1.0.0",
-      "contact" : {
-        "name" : "Pepperi",
-        "email" : "support@pepperi.com",
-        "url" : "https://www.pepperi.com/contact-sales/"
+    "/accounts_users/{id}/" : {
+      "post" : {
+        "summary" : "Account by id",
+        "description" : "This is an endpoint to retreive an account by a specific internal ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of an account",
+          "schema" : {
+            "type" : "integer"
+          },
+          "required" : true
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Accounts" ]
       }
     },
-    "servers" : [ {
-      "url" : "https://papi.pepperi.com/V1.0/",
-      "description" : "Production Environment"
-    }, {
-      "url" : "https://papi.staging.pepperi.com/V1.0/",
-      "description" : "staging environment"
-    } ],
-    "tags" : [ {
-      "description" : "Pepperi's accounts endpoints",
-      "name" : "Accounts"
-    }, {
-      "name" : "Activities",
-      "description" : "activities Endpoints"
-    }, {
-      "name" : "New Tag 3"
-    } ]
-  }
+    "/accounts/{id}" : {
+      "get" : {
+        "summary" : "Account by id",
+        "description" : "This is an endpoint to retreive an account by a specific internal ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of an account",
+          "schema" : {
+            "type" : "integer"
+          },
+          "required" : true
+        }, {
+          "name" : "Fields",
+          "in" : "query",
+          "description" : "List of fields (comma seperated) to retrieve from the object",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page number to retrieve (zero based)",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 0
+          }
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "number of items each page contains",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : -1
+          }
+        }, {
+          "name" : "where",
+          "in" : "query",
+          "description" : "where clause to filter returned objects",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Accounts" ]
+      }
+    },
+    "/accounts/{id}/" : {
+      "post" : {
+        "summary" : "Account by id",
+        "description" : "This is an endpoint to retreive an account by a specific internal ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of an account",
+          "schema" : {
+            "type" : "integer"
+          },
+          "required" : true
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Accounts" ]
+      }
+    },
+    "/items" : {
+      "get" : {
+        "summary" : "Items",
+        "description" : "This is an endpoint to retreive all items in Pepperi's system",
+        "parameters" : [ {
+          "name" : "Fields",
+          "in" : "query",
+          "description" : "List of fields (comma seperated) to retrieve from the object",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page number to retrieve (zero based)",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 0
+          }
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "number of items each page contains",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : -1
+          }
+        }, {
+          "name" : "where",
+          "in" : "query",
+          "description" : "where clause to filter returned objects",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Items" ]
+      }
+    },
+    "/items/{id}" : {
+      "get" : {
+        "summary" : "Item by internal id",
+        "description" : "This is an endpoint to retreive an item by a specific internal ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of an item",
+          "schema" : {
+            "type" : "integer"
+          },
+          "required" : true
+        }, {
+          "name" : "Fields",
+          "in" : "query",
+          "description" : "List of fields (comma seperated) to retrieve from the object",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page number to retrieve (zero based)",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 0
+          }
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "number of items each page contains",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : -1
+          }
+        }, {
+          "name" : "where",
+          "in" : "query",
+          "description" : "where clause to filter returned objects",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Items" ]
+      }
+    },
+    "/items/{id}/" : {
+      "post" : {
+        "summary" : "Items by id",
+        "description" : "This is an endpoint to retreive an account by a specific internal ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of an account",
+          "schema" : {
+            "type" : "integer"
+          },
+          "required" : true
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Items" ]
+      }
+    },
+    "/item_prices" : {
+      "get" : {
+        "summary" : "Item prices",
+        "description" : "This is an endpoint to retreive all item prices in Pepperi's system",
+        "parameters" : [ {
+          "name" : "Fields",
+          "in" : "query",
+          "description" : "List of fields (comma seperated) to retrieve from the object",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page number to retrieve (zero based)",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 0
+          }
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "number of items each page contains",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : -1
+          }
+        }, {
+          "name" : "where",
+          "in" : "query",
+          "description" : "where clause to filter returned objects",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Items" ]
+      }
+    },
+    "/inventory" : {
+      "get" : {
+        "summary" : "Inventory",
+        "description" : "This is an endpoint to retreive all inventory in Pepperi's system",
+        "parameters" : [ {
+          "name" : "Fields",
+          "in" : "query",
+          "description" : "List of fields (comma seperated) to retrieve from the object",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page number to retrieve (zero based)",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 0
+          }
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "number of items each page contains",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : -1
+          }
+        }, {
+          "name" : "where",
+          "in" : "query",
+          "description" : "where clause to filter returned objects",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Inventory" ]
+      }
+    },
+    "/inventory/{id}/" : {
+      "post" : {
+        "summary" : "Account by id",
+        "description" : "This is an endpoint to retreive an account by a specific internal ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of an account",
+          "schema" : {
+            "type" : "integer"
+          },
+          "required" : true
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Inventory" ]
+      }
+    },
+    "/activities" : {
+      "get" : {
+        "summary" : "Activities",
+        "description" : "This is an endpoint to retreive all activities in Pepperi's system",
+        "parameters" : [ {
+          "name" : "Fields",
+          "in" : "query",
+          "description" : "List of fields (comma seperated) to retrieve from the object",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page number to retrieve (zero based)",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 0
+          }
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "number of items each page contains",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : -1
+          }
+        }, {
+          "name" : "where",
+          "in" : "query",
+          "description" : "where clause to filter returned objects",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Activities" ]
+      }
+    },
+    "/activities/{id}" : {
+      "get" : {
+        "summary" : "Activities by internal id",
+        "description" : "This is an endpoint to retreive an activity by a specific internal ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of an activity",
+          "schema" : {
+            "type" : "integer"
+          },
+          "required" : true
+        }, {
+          "name" : "Fields",
+          "in" : "query",
+          "description" : "List of fields (comma seperated) to retrieve from the object",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page number to retrieve (zero based)",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 0
+          }
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "number of items each page contains",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : -1
+          }
+        }, {
+          "name" : "where",
+          "in" : "query",
+          "description" : "where clause to filter returned objects",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Activities" ]
+      }
+    },
+    "/activities/{id}/" : {
+      "post" : {
+        "summary" : "Activities by id",
+        "description" : "This is an endpoint to retreive an account by a specific internal ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of an account",
+          "schema" : {
+            "type" : "integer"
+          },
+          "required" : true
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Activities" ]
+      }
+    },
+    "/transactions" : {
+      "get" : {
+        "summary" : "Transactions",
+        "description" : "This is an endpoint to retreive all transactions in Pepperi's system",
+        "parameters" : [ {
+          "name" : "Fields",
+          "in" : "query",
+          "description" : "List of fields (comma seperated) to retrieve from the object",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page number to retrieve (zero based)",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 0
+          }
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "number of items each page contains",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : -1
+          }
+        }, {
+          "name" : "where",
+          "in" : "query",
+          "description" : "where clause to filter returned objects",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Transactions" ]
+      }
+    },
+    "/transactions/{id}" : {
+      "get" : {
+        "summary" : "Transaction by internal id",
+        "description" : "This is an endpoint to retreive a transaction by a specific internal ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of a transaction",
+          "schema" : {
+            "type" : "integer"
+          },
+          "required" : true
+        }, {
+          "name" : "Fields",
+          "in" : "query",
+          "description" : "List of fields (comma seperated) to retrieve from the object",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page number to retrieve (zero based)",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 0
+          }
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "number of items each page contains",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : -1
+          }
+        }, {
+          "name" : "where",
+          "in" : "query",
+          "description" : "where clause to filter returned objects",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Transactions" ]
+      }
+    },
+    "/transactions/{id}/" : {
+      "post" : {
+        "summary" : "Transactions",
+        "description" : "This is an endpoint to retreive all transactions in Pepperi's system",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of a transaction",
+          "schema" : {
+            "type" : "integer"
+          },
+          "required" : true
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Transactions" ]
+      }
+    },
+    "/addons/installed_addons" : {
+      "get" : {
+        "summary" : "All addons",
+        "description" : "All addons",
+        "parameters" : [ {
+          "name" : "Fields",
+          "in" : "query",
+          "description" : "List of fields (comma seperated) to retrieve from the object",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page number to retrieve (zero based)",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 0
+          }
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "number of items each page contains",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : -1
+          }
+        }, {
+          "name" : "where",
+          "in" : "query",
+          "description" : "where clause to filter returned objects",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Add-Ons" ]
+      }
+    },
+    "/addons/installed_addons/{addonUUID}/upgrade" : {
+      "post" : {
+        "summary" : "Upgrade to the latest phased version of the add-on",
+        "description" : "Upgrade to the latest phased version of the add-on",
+        "parameters" : [ {
+          "name" : "addonUUID",
+          "in" : "path",
+          "description" : "The UUID of the addon",
+          "schema" : {
+            "type" : "string"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Add-Ons" ]
+      }
+    },
+    "/addons/installed_addons/{addonUUID}/downgrade/{versionID}" : {
+      "post" : {
+        "summary" : "Downgrade installed add-on version",
+        "description" : "Downgrade installed add-on version",
+        "parameters" : [ {
+          "name" : "addonUUID",
+          "in" : "path",
+          "description" : "The UUID of the addon",
+          "schema" : {
+            "type" : "string"
+          },
+          "required" : true
+        }, {
+          "name" : "versionID",
+          "in" : "path",
+          "description" : "The ID of the version",
+          "schema" : {
+            "type" : "number"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Add-Ons" ]
+      }
+    },
+    "/meta_data/user_defined_tables/{tableID}" : {
+      "get" : {
+        "summary" : "Get single table",
+        "description" : "Get single table",
+        "parameters" : [ {
+          "name" : "tableID",
+          "in" : "path",
+          "description" : "The ID of the table",
+          "schema" : {
+            "type" : "integer"
+          },
+          "required" : true
+        }, {
+          "name" : "Fields",
+          "in" : "query",
+          "description" : "List of fields (comma seperated) to retrieve from the object",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page number to retrieve (zero based)",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 0
+          }
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "number of items each page contains",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : -1
+          }
+        }, {
+          "name" : "where",
+          "in" : "query",
+          "description" : "where clause to filter returned objects",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "include_deleted",
+          "in" : "query",
+          "description" : "wether to retrieve hidden items",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "include_count",
+          "in" : "query",
+          "description" : "returns on the headers the number of objects exists in the system",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "User Defined Tables" ]
+      }
+    },
+    "/meta_data/user_defined_tables" : {
+      "post" : {
+        "summary" : "Insert single table",
+        "description" : "Insert single table",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "User Defined Tables" ]
+      }
+    }
+  },
+  "components" : {
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  },
+  "info" : {
+    "title" : "PAPI",
+    "description" : "Aplication contains a list of all Pepperi's API endpoints",
+    "version" : "1.0.0",
+    "contact" : {
+      "name" : "Pepperi",
+      "email" : "support@pepperi.com",
+      "url" : "https://www.pepperi.com/contact-sales/"
+    }
+  },
+  "servers" : [ {
+    "url" : "https://papi.pepperi.com/V1.0/",
+    "description" : "Production Environment"
+  }, {
+    "url" : "https://papi.staging.pepperi.com/V1.0/",
+    "description" : "staging environment"
+  } ],
+  "tags" : [ {
+    "description" : "Pepperi's accounts endpoints",
+    "name" : "Accounts"
+  }, {
+    "name" : "Activities",
+    "description" : "activities Endpoints"
+  } ]
+}
