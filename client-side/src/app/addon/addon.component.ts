@@ -46,6 +46,33 @@ const spec = {
           }
         }
       },
+      "/meta_data/data_views" : {
+        "get" : {
+          "summary" : "Data Views",
+          "description" : "This is an endpoint to retreive all Data Views in Pepperi's system",
+          "parameters" : [ {
+            "name" : "Fields",
+            "in" : "query",
+            "description" : "List of fields (comma seperated) to retrieve from the object",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          {
+            "name" : "where",
+            "in" : "query",
+            "description" : "filter",
+            "schema" : {
+              "type" : "string"
+            }
+          }],
+          "responses" : {
+            "200" : {
+              "description" : "OK"
+            }
+          }
+        }
+      },
       "/ping" : {
         "get" : {
           "summary" : "Server heartbeat operation",
@@ -78,13 +105,7 @@ const spec = {
         "url" : "https://www.pepperi.com/contact-sales/"
       }
     },
-    "servers" : [ {
-      "url" : "https://papi.pepperi.com/V1.0/",
-      "description" : "Production Environment"
-    }, {
-      "url" : "https://papi.staging.pepperi.com/V1.0/",
-      "description" : "staging environment"
-    } ],
+    "servers" : [],
     "tags" : [ {
       "description" : "Pepperi's accounts endpoints",
       "name" : "Accounts"
@@ -116,6 +137,11 @@ export class AddonComponent implements OnInit {
     }
 
     ngOnInit() {
+        spec.servers = [{
+            "url" : this.session.getPapiBaseUrl(),
+            "description" : "Current Enviroment"
+        }]            
+
         const node = document.getElementById('swagger-ui-item');
         console.log(node)
         const i = SwaggerUI({
