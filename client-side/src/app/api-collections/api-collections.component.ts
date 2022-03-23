@@ -16,18 +16,35 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log("collections changed");
-    this.dataSource = this.getDataSource()
+    if (this.collections) {
+      this.dataSource = this.getDataSource()
+    }
   }
+
+  edit: boolean = false;
+  collection: any = undefined;
 
   @Input()
   collections: any[] = [];
 
-  dataSource: IPepGenericListDataSource | undefined= undefined; 
+  dataSource: IPepGenericListDataSource | undefined = undefined; 
 
   actions: IPepGenericListActions = {
     get: async (data: PepSelectionData) => {
         const actions = [];
         if (data && data.rows.length == 1) {
+          actions.push({
+            title: 'Show',
+            handler: async (obj: PepSelectionData) => {
+              const key = obj.rows[0];
+              if (key) {
+                this.collection = this.collections.find(c => c.Key == key);
+                if (this.collection) {
+                  this.edit = true;
+                }
+              }
+            }
+          });
           actions.push({
             title: 'Edit',
             handler: async (objs) => {

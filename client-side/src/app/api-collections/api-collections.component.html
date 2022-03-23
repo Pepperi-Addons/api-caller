@@ -1,20 +1,30 @@
-<pep-generic-list
-    [title] = "'User API Collections'"
-    [showTopBar]="true" 
-    [dataSource]="dataSource" 
-    [inline]="true"
-    [actions]="actions"
-    [addPadding]="false"
-    [showSearch]="true"
-    [uuidMapping]="'Key'"
->
-<ng-container right-buttons>
-    <pep-button 
-        class="pep-spacing-element"
-        [sizeType]="'sm'" 
-        [iconName]="'number_plus'" 
-        [styleType]="'strong'" 
-        (buttonClick)="createCollection()"
-    ></pep-button>
-</ng-container>
-</pep-generic-list>
+<div *ngIf="!edit && collections">
+    <div class="genericListContainer">
+        <pep-generic-list
+            [title] = "'User API Collections'"
+            [showTopBar]="true" 
+            [dataSource]="dataSource" 
+            [inline]="true"
+            [actions]="actions"
+            [addPadding]="false"
+            [showSearch]="true"
+            [uuidMapping]="'Key'"
+        >
+            <ng-container right-buttons>
+                <pep-button 
+                    class="pep-spacing-element"
+                    [sizeType]="'sm'" 
+                    [iconName]="'number_plus'" 
+                    [styleType]="'strong'" 
+                    (buttonClick)="createCollection()"
+                ></pep-button>
+            </ng-container>
+        </pep-generic-list>
+    </div>
+</div>
+<div *ngIf="edit && collection">
+    <pep-button (buttonClick)="edit = false; collection = undefined;" [value]="'Back To List'"></pep-button>
+    <app-swagger-ui [spec]="collection.Spec">
+
+    </app-swagger-ui>
+</div>

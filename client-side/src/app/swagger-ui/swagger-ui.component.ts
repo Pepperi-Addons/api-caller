@@ -33,17 +33,19 @@ export class SwaggerUiComponent implements OnInit, OnChanges {
   }
 
   async load() {
-    const spec = await this.addonService.getSpec();
-        spec.servers = [{
+    if (this.spec) {
+        this.spec.servers = [{
             "url" : this.session.getPapiBaseUrl(),
             "description" : "Current Enviroment"
-        }]            
+        }]  
+        this.spec.security = [{bearerAuth: []}] 
+        this.spec.components = {securitySchemes: {bearerAuth: {type: "http", scheme: "bearer", bearerFormat: "JWT"}}}         
 
         const node = document.getElementById('swagger-ui-item');
         console.log(node)
         const i = SwaggerUI({
             domNode: node,
-            spec: spec,
+            spec: this.spec,
             requestInterceptor: (request) => {
                 console.log(request);
                 this.lastCall = { 
@@ -72,6 +74,7 @@ export class SwaggerUiComponent implements OnInit, OnChanges {
 
           const token = this.session.getIdpToken();
           i.preauthorizeApiKey("bearerAuth", token);
+    }
   }
 
 }

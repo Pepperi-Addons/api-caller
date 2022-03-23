@@ -38,7 +38,9 @@ export class AddonComponent implements OnInit {
     async tabSelected(tab: number) {
         switch (tab) {
             case 0: {
-                this.spec = await this.addonService.getSpec();
+                if (!this.spec) {
+                    this.spec = await this.addonService.getSpec();
+                }
                 break;
             } 
             case 1: {
