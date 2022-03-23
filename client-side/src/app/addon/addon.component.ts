@@ -16,6 +16,8 @@ export class AddonComponent implements OnInit {
     @Output() hostEvents: EventEmitter<any> = new EventEmitter<any>();
     
     screenSize: PepScreenSizeType;
+    spec: any = undefined;
+    collections: any[] = [];
 
     constructor(
         public addonService: AddonService,
@@ -30,6 +32,19 @@ export class AddonComponent implements OnInit {
     }
 
     ngOnInit() {
-        
+        this.tabSelected(0);
+    }
+
+    async tabSelected(tab: number) {
+        switch (tab) {
+            case 0: {
+                this.spec = await this.addonService.getSpec();
+                break;
+            } 
+            case 1: {
+                this.collections = await this.addonService.getCollections();
+                break;
+            }
+        }
     }
 }
