@@ -4,8 +4,9 @@ import { PapiClient } from '@pepperi-addons/papi-sdk';
 import { Injectable } from '@angular/core';
 
 import { PepHttpService, PepSessionService } from '@pepperi-addons/ngx-lib';
+import { ApiCall } from '../swagger-ui/swagger-ui.component';
 
-
+export const CallsHistoryKey = 'UserCallHistory'
 @Injectable({ providedIn: 'root' })
 export class AddonService {
 
@@ -51,6 +52,17 @@ export class AddonService {
 
     getSpec(): Promise<any> {
         return this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('json_spec').get();
+    }
+
+    addCallHistory(call: ApiCall) {
+        const history = this.getCallHistory();
+        history.push(call);
+        this.session.setObject<ApiCall[]>(CallsHistoryKey, history);
+    }
+    
+    getCallHistory(params: any = {}): ApiCall[] {
+        const history = this.session.getObject<ApiCall[]>(CallsHistoryKey);
+        return history || []
     }
 
 }

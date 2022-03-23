@@ -19,7 +19,8 @@ import { PepPageLayoutModule } from '@pepperi-addons/ngx-lib/page-layout';
 import { PepButtonModule } from '@pepperi-addons/ngx-lib/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ApiCollectionsComponent } from './api-collections/api-collections.component';
-import { PepGenericListModule } from '@pepperi-addons/ngx-composite-lib/generic-list';
+import { CallsHistoryListComponent } from './history-list/calls-history-list/calls-history-list.component';
+import { PepGenericListModule } from '@pepperi-addons/ngx-composite-lib/generic-list'
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import { PepGenericListModule } from '@pepperi-addons/ngx-composite-lib/generic-
         AddonComponent,
         SwaggerUiComponent,
         ApiCollectionsComponent,
+        CallsHistoryListComponent,
     ],
     imports: [
         BrowserModule,
