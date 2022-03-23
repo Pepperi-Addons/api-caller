@@ -23,26 +23,28 @@ class MyService {
             where: "RelationName='OpenAPISpec'"
         });
 
-        const additionalSpecs: any[] = [];
         for (const relation of relations) {
-            if (relation.AddonRelativeURL) {
-                const x = await this.papiClient.get(`addons/api/${relation.AddonUUID}/${relation.AddonRelativeURL}`);
-                if (x) {
-                    additionalSpecs.push(x);
+            try {
+                if (relation.AddonRelativeURL) {
+                    const additionalSpec = await this.papiClient.get(`/addons/api/${relation.AddonUUID}/${relation.AddonRelativeURL}`);
+
+                    if (additionalSpec.paths) {
+                        for (const path in additionalSpec.paths) {
+                            res.paths[`/addons/api/${relation.AddonUUID}${path}`] = additionalSpec.paths[path];   
+                        }
+                    }
+                    
+                    if (additionalSpec.tags) {
+                        res.tags = [
+                            ...res.tags,
+                            ...additionalSpec.tags
+                        ]
+                    }
                 }
             }
-        }
-
-        for (const additionalSpec of additionalSpecs) {
-            res.paths = {
-                ...res.paths,
-                ...additionalSpec.paths
+            catch (e) {
+                console.log(e);
             }
-
-            res.tags = [
-                ...res.tags,
-                ...additionalSpec.tags
-            ]
         }
 
         return res;

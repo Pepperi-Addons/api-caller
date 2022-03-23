@@ -31,7 +31,15 @@
               "type" : "integer",
               "minimum" : -1
             }
-          } ],
+          },
+          {
+            "name" : "where",
+            "in" : "query",
+            "description" : "Filter the results using SQL like query",
+            "schema" : {
+              "type" : "string"
+            }
+          }  ],
           "responses" : {
             "200" : {
               "description" : "OK"
