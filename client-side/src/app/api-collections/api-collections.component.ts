@@ -1,80 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IPepGenericListActions, IPepGenericListDataSource } from '@pepperi-addons/ngx-composite-lib/generic-list';
 import { PepSelectionData } from '@pepperi-addons/ngx-lib/list';
+import { AddonService } from '../addon/addon.service';
 
 @Component({
   selector: 'app-api-collections',
   templateUrl: './api-collections.component.html',
   styleUrls: ['./api-collections.component.css']
 })
-export class ApiCollectionsComponent implements OnInit {
+export class ApiCollectionsComponent implements OnInit, OnChanges {
 
-  constructor() { }
+  constructor(
+    public addonService: AddonService,
+  ) { }
 
-  dataSource: IPepGenericListDataSource = {
-
-    init: async(params:any) => {
-      console.log('init list');
-      let collections = [
-        {
-          "Key": "1",
-          "Name": "Collection 1",
-          "Description": "Collection 1 Description",
-          "Spec": {
-
-          }
-        }
-      ];
-      return Promise.resolve({
-          dataView: {
-              Context: {
-                  Name: '',
-                  Profile: { InternalID: 0 },
-                  ScreenSize: 'Landscape'
-              },
-              Type: 'Grid',
-              Title: '',
-              Fields: [
-                  {
-                      FieldID: 'Name',
-                      Type: 'TextBox',
-                      Title: 'Name',
-                      Mandatory: false,
-                      ReadOnly: true
-                  },
-                  {
-                      FieldID: 'Description',
-                      Type: 'TextBox',
-                      Title: 'Description',
-                      Mandatory: false,
-                      ReadOnly: true
-                  },
-              ],
-              Columns: [
-                  {
-                      Width: 20
-                  },
-                  {
-                      Width: 50
-                  }
-              ],
-
-              FrozenColumnsCount: 0,
-              MinimumColumnWidth: 0
-          },
-          totalCount: collections.length,
-          items: collections
-      });
-  },
-  inputs: () => {
-      return Promise.resolve({
-          pager: {
-              type: 'scroll'
-          },
-          selectionType: 'single'
-      });
-  },
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("collections changed");
+    this.dataSource = this.getDataSource()
   }
+
+  @Input()
+  collections: any[] = [];
+
+  dataSource: IPepGenericListDataSource | undefined= undefined; 
 
   actions: IPepGenericListActions = {
     get: async (data: PepSelectionData) => {
@@ -95,6 +43,63 @@ export class ApiCollectionsComponent implements OnInit {
         return actions;
       }
     }
+  }
+
+  getDataSource(): IPepGenericListDataSource {
+    return {
+
+      init: async(params:any) => {
+        console.log('init list');
+        return Promise.resolve({
+            dataView: {
+                Context: {
+                    Name: '',
+                    Profile: { InternalID: 0 },
+                    ScreenSize: 'Landscape'
+                },
+                Type: 'Grid',
+                Title: '',
+                Fields: [
+                    {
+                        FieldID: 'Name',
+                        Type: 'TextBox',
+                        Title: 'Name',
+                        Mandatory: false,
+                        ReadOnly: true
+                    },
+                    {
+                        FieldID: 'Description',
+                        Type: 'TextBox',
+                        Title: 'Description',
+                        Mandatory: false,
+                        ReadOnly: true
+                    },
+                ],
+                Columns: [
+                    {
+                        Width: 20
+                    },
+                    {
+                        Width: 50
+                    }
+                ],
+  
+                FrozenColumnsCount: 0,
+                MinimumColumnWidth: 0
+            },
+            totalCount: this.collections.length,
+            items: this.collections
+        });
+    },
+    inputs: () => {
+        return Promise.resolve({
+            pager: {
+                type: 'scroll'
+            },
+            selectionType: 'single'
+        });
+    },
+    };
   }
 
   ngOnInit(): void {

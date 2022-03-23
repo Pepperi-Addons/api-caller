@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { PepSessionService } from '@pepperi-addons/ngx-lib';
 import SwaggerUI from 'swagger-ui';
 import { AddonService } from '../addon/addon.service';
@@ -10,20 +10,25 @@ import { v4 as uuid } from 'uuid'
   templateUrl: './swagger-ui.component.html',
   styleUrls: ['./swagger-ui.component.css']
 })
-export class SwaggerUiComponent implements OnInit {
+export class SwaggerUiComponent implements OnInit, OnChanges {
 
-    
-    apiCallHistory: ApiCall[] = [];
-    apiCallHistoryString: string = ''
-    lastAction:string = '';
+    lastCall: ApiCall;;
 
   constructor(
     public addonService: AddonService,
     public session:  PepSessionService,
   ) { }
 
+  @Input() 
+  spec: any = undefined;
+
   ngOnInit(): void {
     window['global'] = window;
+    this.load().then(() => console.log("loaded"));
+  }
+
+  ngOnChanges() {
+    console.log("spec changed");
     this.load().then(() => console.log("loaded"));
   }
 
@@ -40,17 +45,22 @@ export class SwaggerUiComponent implements OnInit {
             domNode: node,
             spec: spec,
             requestInterceptor: (request) => {
-                this.lastAction = uuid();
+                console.log(request);
+                this.lastCall = { 
+                    ActionUUID: uuid(),
+                    Body: request.body,
+                    URL: request.url,
+                    Method: request.method
+                }
                 request.headers = {
                     ...request.headers,
-                    "X-Pepperi-ActionID": this.lastAction,
+                    "X-Pepperi-ActionID": this.lastCall.ActionUUID,
                 }
                 return request;
             },
             responseInterceptor: (response)=> {
                 const call: ApiCall = {
-                    ActionUUID: this.lastAction,
-                    URL: response.url,
+                    ...this.lastCall,
                     Duration: response.duration,
                     Response: response.obj,
                     Status: response.status
@@ -68,11 +78,12 @@ export class SwaggerUiComponent implements OnInit {
 
 export interface ApiCall {
     ActionUUID: string;
-    URL?: string;
+    URL: string;
     Body?: any;
     Response?: any;
     Duration?: number;
     Status?: number;
     Error?: string;
+    Method: string;
 }
 

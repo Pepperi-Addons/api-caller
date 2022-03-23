@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AddonService } from '../../addon/addon.service';
 
@@ -7,14 +7,16 @@ import { IPepGenericListActions, IPepGenericListDataSource, IPepGenericListPager
 import { PepSelectionData } from "@pepperi-addons/ngx-lib/list";
 import { PepMenuItem } from "@pepperi-addons/ngx-lib/menu";
 import { PepDialogData, PepDialogService } from "@pepperi-addons/ngx-lib/dialog";
+import { ApiCall } from 'src/app/swagger-ui/swagger-ui.component';
 
 @Component({
   selector: 'app-calls-history-list',
   templateUrl: './calls-history-list.component.html',
   styleUrls: ['./calls-history-list.component.scss']
 })
-export class CallsHistoryListComponent implements OnInit {
+export class CallsHistoryListComponent implements OnInit, OnChanges {
 
+    @Input() history: ApiCall[] = [];
     dataSource:IPepGenericListDataSource = this.getDataSource();
 
     constructor(public translate: TranslateService,
@@ -23,13 +25,18 @@ export class CallsHistoryListComponent implements OnInit {
                 public genericListService: PepGenericListService,
                 ) { }
 
+
+    ngOnChanges(changes: SimpleChanges): void {
+        this.dataSource = this.getDataSource();
+        
+    }
+
     ngOnInit(): void {
     }
 
     getDataSource() {
         return {
             init: async(params:any) => {
-                let history = await this.addonService.getCallHistory(params);
                 return Promise.resolve({
                     dataView: {
                         Context: {
@@ -55,9 +62,23 @@ export class CallsHistoryListComponent implements OnInit {
                                 ReadOnly: true
                             },
                             {
+                                FieldID: 'Method',
+                                Type: 'TextBox',
+                                Title: this.translate.instant('Method'),
+                                Mandatory: false,
+                                ReadOnly: true
+                            },
+                            {
+                                FieldID: 'Body',
+                                Type: 'TextArea',
+                                Title: this.translate.instant('Body'),
+                                Mandatory: false,
+                                ReadOnly: true
+                            },
+                            {
                                 FieldID: 'Status',
                                 Type: 'TextBox',
-                                Title: this.translate.instant('Status'),
+                                Title: this.translate.instant('Response Status'),
                                 Mandatory: false,
                                 ReadOnly: true
                             },
@@ -81,14 +102,20 @@ export class CallsHistoryListComponent implements OnInit {
                             },
                             {
                                 Width: 25
+                            },
+                            {
+                                Width: 25
+                            },
+                            {
+                                Width: 25
                             }
                         ],
           
                         FrozenColumnsCount: 0,
                         MinimumColumnWidth: 0
                     },
-                    totalCount: history.length,
-                    items: history
+                    totalCount: this.history.length,
+                    items: this.history
                 });
             },
             inputs: () => {

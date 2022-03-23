@@ -25,7 +25,7 @@ export async function openapi_spec()
 {
     return {
         paths: {
-            'api/api_collections': {
+            '/api/api_collections': {
                 get: {
                     tags: ['api_collections'],
                     summary: 'Get API collections',
@@ -63,31 +63,29 @@ export async function openapi_spec()
                     tags: ['api_collections'],
                     summary: 'Create API collection',
                     operationId: 'upsertAPICollection',
-                    parameters: [
-                        {
-                            name: 'body',
-                            in: 'body',
-                            description: 'API collection',
-                            required: true,
-                            schema: {
-                                type: 'object',
-                                properties: {
-                                    Name: {
-                                        type: 'string',
-                                        required: true
+                    requestBody: {
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        Name: {
+                                            type: 'string',
+                                            required: true
+                                        },
+                                        Description: {
+                                            type: 'string',
+                                            required: true
+                                        },
+                                        Spec: {
+                                            type: 'object',
+                                            required: true
+                                        }
                                     },
-                                    Description: {
-                                        type: 'string',
-                                        required: true
-                                    },
-                                    Spec: {
-                                        type: 'object',
-                                        required: true
-                                    }
                                 }
-                            },
+                            }
                         }
-                    ],
+                    },
                     responses: {
                         '200': {
                             description: 'Success',
