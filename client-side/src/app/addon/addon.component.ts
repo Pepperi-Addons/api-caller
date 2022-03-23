@@ -30,7 +30,7 @@ export class AddonComponent implements OnInit {
     }
 
     ngOnInit() {
-        
+        window['global'] = window;
         this.load().then(() => console.log("loaded"));
     }
 
