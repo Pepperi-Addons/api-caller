@@ -1,12 +1,15 @@
 import { PapiClient, InstalledAddon } from '@pepperi-addons/papi-sdk'
 import { Client } from '@pepperi-addons/debug-server';
 import spec from './spec.json';
+import {v4 as uuid} from 'uuid';
 
 class MyService {
 
     papiClient: PapiClient
+    addonUUID: string
 
     constructor(private client: Client) {
+        this.addonUUID = client.AddonUUID;
         this.papiClient = new PapiClient({
             baseURL: client.BaseURL,
             token: client.OAuthAccessToken,
@@ -48,6 +51,43 @@ class MyService {
         }
 
         return res;
+    }
+
+    async createTables(): Promise<any> {
+        await this.papiClient.addons.data.schemes.post({
+            Name: 'api_collections',
+            Type: 'meta_data',
+            Fields: {
+                Name: {
+                    Type: 'String',
+                },
+                Description: {
+                    Type: 'String',
+                }
+            }
+        });
+    }
+
+    async createRelations(): Promise<any> {
+        await this.papiClient.addons.data.relations.upsert({
+            Type: 'AddonAPI',
+            Name: 'OpenAPISpec',
+            RelationName: 'OpenAPISpec',
+            AddonUUID: this.addonUUID,
+            AddonRelativeURL: 'api/openapi_spec'
+        })
+    }
+
+    async getAPICollections(options: any): Promise<any> {
+        return this.papiClient.addons.data.uuid(this.addonUUID).table('api_collections').find(options);
+    }
+
+    async upsertAPICollection(collection: any): Promise<any> {
+        if (!collection.Key) {
+            collection.Key = uuid();
+        }
+
+        return this.papiClient.addons.data.uuid(this.addonUUID).table('api_collections').upsert(collection);
     }
 }
 

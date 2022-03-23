@@ -9,13 +9,12 @@ The error Message is importent! it will be written in the audit log and help the
 */
 
 import { Client, Request } from '@pepperi-addons/debug-server'
-import { Relation } from '@pepperi-addons/papi-sdk'
 import MyService from './my.service';
 
 export async function install(client: Client, request: Request): Promise<any> {
-    // For page block template uncomment this.
-    // const res = await createPageBlockRelation(client);
-    // return res;
+    const service = new MyService(client);
+    await service.createTables();
+    await service.createRelations();
     return {success:true,resultObject:{}}
 }
 
@@ -24,6 +23,9 @@ export async function uninstall(client: Client, request: Request): Promise<any> 
 }
 
 export async function upgrade(client: Client, request: Request): Promise<any> {
+    const service = new MyService(client);
+    await service.createTables();
+    await service.createRelations();
     return {success:true,resultObject:{}}
 }
 
