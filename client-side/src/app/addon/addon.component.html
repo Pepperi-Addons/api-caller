@@ -9,7 +9,16 @@
     </ng-container>
 
     <ng-container pep-main-area>
-        <div id="swagger-ui-item"></div>
+        <mat-tab-group  #tabGroup class="editor-tabs" animationDuration="0ms">
+            <mat-tab label="Pepperi APIs"> 
+                <app-swagger-ui></app-swagger-ui>
+            </mat-tab>
+            <mat-tab label="Collections"> 
+                Collections Work's
+            </mat-tab>
+
+        </mat-tab-group>
+        
     </ng-container>
 </pep-page-layout>
 
