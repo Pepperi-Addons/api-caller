@@ -4,6 +4,7 @@ const path = require("path");
 const share = mf.share;
 const singleSpaAngularWebpack = require('single-spa-angular/lib/webpack').default;
 const { merge } = require('webpack-merge');
+const webpack = require('webpack');
 
 const filename = 'addon'; // addon
 
@@ -26,10 +27,21 @@ module.exports = (config, options, env) => {
         },   
         resolve: {
             alias: {
+                "global":  path.resolve(__dirname, './global.js'),
             ...sharedMappings.getAliases(),
+            },
+            fallback: {
+                "stream": require.resolve("stream-browserify"),
+                "buffer": require.resolve("buffer"),
             }
         },
         plugins: [
+            new webpack.ProvidePlugin({
+                'global': 'global',
+            }),
+            new webpack.ProvidePlugin({
+                Buffer: ['buffer', 'Buffer'],
+            }),
             new ModuleFederationPlugin({
                 name: `${filename}`,
                 filename: `${filename}.js`,

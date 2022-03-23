@@ -28,9 +28,11 @@
                             }
                         ],
                         "styles": [
-                            "src/styles.scss"
+                            "src/styles.scss",
+                            "./node_modules/swagger-ui/dist/swagger-ui.css"
                         ],
-                        "scripts": [],
+                        "scripts": [
+                        ],
                         "customWebpackConfig": {
                             "path": "webpack.config.js",
                             "libraryName": "client-side",

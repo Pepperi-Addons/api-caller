@@ -15,12 +15,12 @@ const routes: Routes = [
         path: `settings/:addon_uuid`,
         children: [
             {
-                path: ':editor',
+                path: 'api-caller',
                 component: AddonComponent
                 // TODO: solve routing
                 // path: '**',
                 // loadChildren: () => import('./addon/addon.module').then(m => m.AddonModule)
-            }
+            },
         ]
     },
     {

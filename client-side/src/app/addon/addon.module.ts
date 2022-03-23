@@ -14,6 +14,9 @@ import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } fr
 import { AddonService } from './addon.service';
 import { AddonComponent } from './index';
 
+
+
+
 const pepIcons = [
     pepIconSystemClose,
 ];
