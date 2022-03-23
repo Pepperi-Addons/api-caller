@@ -9,14 +9,15 @@
         "summary" : "accounts",
         "description" : "This is an endpoint to retreive all account in Pepperi's system",
         "parameters" : [ {
-          "name" : "Fields",
+          "name" : "fields",
           "in" : "query",
           "description" : "List of fields (comma seperated) to retrieve from the object",
+          "explode": false,
           "schema" : {
             "type" : "array",
             "items" : {
               "type" : "string",
-              "enum" : [ "ExternalID", "Name", "Address", "City" ]
+              "enum" : [ "" ]
             }
           }
         }, {
@@ -568,11 +569,16 @@
         "summary" : "Activities",
         "description" : "This is an endpoint to retreive all activities in Pepperi's system",
         "parameters" : [ {
-          "name" : "Fields",
+          "name" : "fields",
           "in" : "query",
           "description" : "List of fields (comma seperated) to retrieve from the object",
+          "explode": false,
           "schema" : {
-            "type" : "string"
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "enum" : [ "" ]
+            }
           }
         }, {
           "name" : "page",
@@ -725,11 +731,16 @@
         "summary" : "Transactions",
         "description" : "This is an endpoint to retreive all transactions in Pepperi's system",
         "parameters" : [ {
-          "name" : "Fields",
+          "name" : "fields",
           "in" : "query",
           "description" : "List of fields (comma seperated) to retrieve from the object",
+          "explode": false,
           "schema" : {
-            "type" : "string"
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "enum" : [ "" ]
+            }
           }
         }, {
           "name" : "page",
