@@ -50,7 +50,8 @@ export class SwaggerUiComponent implements OnInit, OnChanges {
                     ActionUUID: uuid(),
                     Body: request.body,
                     URL: request.url,
-                    Method: request.method
+                    Method: request.method,
+                    Timestamp: new Date()
                 }
                 request.headers = {
                     ...request.headers,
@@ -85,5 +86,6 @@ export interface ApiCall {
     Status?: number;
     Error?: string;
     Method: string;
+    Timestamp: Date;
 }
 

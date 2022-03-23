@@ -56,7 +56,7 @@ export class AddonService {
 
     addCallHistory(call: ApiCall) {
         const history = this.getCallHistory();
-        history.push(call);
+        history.unshift(call);
         this.session.setObject<ApiCall[]>(CallsHistoryKey, history);
     }
     

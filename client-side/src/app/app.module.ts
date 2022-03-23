@@ -22,6 +22,9 @@ import { ApiCollectionsComponent } from './api-collections/api-collections.compo
 import { CallsHistoryListComponent } from './history-list/calls-history-list/calls-history-list.component';
 import { PepGenericListModule } from '@pepperi-addons/ngx-composite-lib/generic-list'
 
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { PepDialogModule } from '@pepperi-addons/ngx-lib/dialog';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -41,7 +44,9 @@ import { PepGenericListModule } from '@pepperi-addons/ngx-composite-lib/generic-
         PepPageLayoutModule,
         PepButtonModule,
         MatTabsModule,
+        PepDialogModule,
         PepGenericListModule,
+        NgxJsonViewerModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

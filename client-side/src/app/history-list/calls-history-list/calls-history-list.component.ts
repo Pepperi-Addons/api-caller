@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AddonService } from '../../addon/addon.service';
 
@@ -8,6 +8,7 @@ import { PepSelectionData } from "@pepperi-addons/ngx-lib/list";
 import { PepMenuItem } from "@pepperi-addons/ngx-lib/menu";
 import { PepDialogData, PepDialogService } from "@pepperi-addons/ngx-lib/dialog";
 import { ApiCall } from 'src/app/swagger-ui/swagger-ui.component';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-calls-history-list',
@@ -18,6 +19,15 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
 
     @Input() history: ApiCall[] = [];
     dataSource:IPepGenericListDataSource = this.getDataSource();
+
+    
+    @ViewChild('response', { read: TemplateRef }) responseTemplate: TemplateRef<any>;
+    @ViewChild('body', { read: TemplateRef }) bodyTemplate: TemplateRef<any>;
+    
+    dialogRef: MatDialogRef<CallsHistoryListComponent>
+
+    callResponse: string;
+    callBody: string;
 
     constructor(public translate: TranslateService,
                 public addonService: AddonService,
@@ -55,6 +65,13 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
                                 ReadOnly: true
                             },
                             {
+                                FieldID: 'Timestamp',
+                                Type: 'TextBox',
+                                Title: this.translate.instant('Timestamp'),
+                                Mandatory: false,
+                                ReadOnly: true
+                            },
+                            {
                                 FieldID: 'URL',
                                 Type: 'TextBox',
                                 Title: this.translate.instant('Url'),
@@ -69,23 +86,9 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
                                 ReadOnly: true
                             },
                             {
-                                FieldID: 'Body',
-                                Type: 'TextArea',
-                                Title: this.translate.instant('Body'),
-                                Mandatory: false,
-                                ReadOnly: true
-                            },
-                            {
                                 FieldID: 'Status',
                                 Type: 'TextBox',
                                 Title: this.translate.instant('Response Status'),
-                                Mandatory: false,
-                                ReadOnly: true
-                            },
-                            {
-                                FieldID: 'Response',
-                                Type: 'TextArea',
-                                Title: this.translate.instant('Response'),
                                 Mandatory: false,
                                 ReadOnly: true
                             },
@@ -106,9 +109,6 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
                             {
                                 Width: 25
                             },
-                            {
-                                Width: 25
-                            }
                         ],
           
                         FrozenColumnsCount: 0,
@@ -134,12 +134,33 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
         get: async (data: PepSelectionData) => {
             const actions = [];
             if (data && data.rows.length == 1) {
+                const itemKey = data.rows[0];
+                const rowData = this.history.find(item => item.ActionUUID === itemKey);
                 actions.push({
-                    title: this.translate.instant('Show Logs'),
+                    title: this.translate.instant('Logs'),
                     handler: async (objs) => {
                         this.openLogsPopup(objs.rows[0]);
                     }
+                },
+                {
+                    title: this.translate.instant('Response.Body'),
+                    handler: async (objs) => {
+                        this.callResponse = rowData.Response;
+                        this.dialogService.openDialog(this.responseTemplate, undefined);
+                    }
                 });
+                if (rowData && rowData.Body) {
+                    actions.push(
+                        {
+                            title: this.translate.instant('Request.Body'),
+                            handler: async (objs) => {
+                                this.callBody = JSON.parse(rowData.Body);
+                                this.dialogService.openDialog(this.bodyTemplate, undefined);
+                            
+                            },
+                        }
+                    )
+                }
             }
             return actions;
         }

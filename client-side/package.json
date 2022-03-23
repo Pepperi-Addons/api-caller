@@ -45,6 +45,7 @@
         "moment": "^2.27.0",
         "ng-gallery": "^5.0.0",
         "ng2-file-upload": "^1.4.0",
+        "ngx-json-viewer": "^3.0.2",
         "ngx-quill": "^14.0.0",
         "ngx-signaturepad": "0.0.9",
         "ngx-translate-multi-http-loader": "^3.0.0",

@@ -7,7 +7,23 @@
         [actions]="actions"
         [addPadding]="false"
         [showSearch]="false"
-        [uuidMapping]="'ActionID'"
+        [uuidMapping]="'ActionUUID'"
         >
     </pep-generic-list>
 </div>
+
+<ng-template #response>
+    <pep-dialog [title]="'Response_Title' | translate">
+        <ng-container pep-dialog-content>
+            <ngx-json-viewer [json]="callResponse"></ngx-json-viewer>
+        </ng-container>
+    </pep-dialog>
+</ng-template>
+
+<ng-template #body>
+    <pep-dialog [title]="'Body_Title' | translate">
+        <ng-container pep-dialog-content>
+            <ngx-json-viewer [json]="callBody"></ngx-json-viewer>
+        </ng-container>
+    </pep-dialog>
+</ng-template>
