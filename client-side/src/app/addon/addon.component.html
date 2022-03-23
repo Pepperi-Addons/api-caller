@@ -1,6 +1,6 @@
 <pep-page-layout>
     <ng-container pep-top-area>
-        <pep-top-bar [title]="('Title_Addon' | translate)">
+        <pep-top-bar [title]="'API Land'">
             <div header-start-content>
             </div>
             <div header-end-content>
@@ -14,7 +14,7 @@
                 <app-swagger-ui></app-swagger-ui>
             </mat-tab>
             <mat-tab label="Collections"> 
-                Collections Work's
+                <app-api-collections></app-api-collections>
             </mat-tab>
 
         </mat-tab-group>
