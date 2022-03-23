@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { PepLayoutService, PepScreenSizeType, PepSessionService } from '@pepperi-addons/ngx-lib';
 import { TranslateService } from '@ngx-translate/core';
-import SwaggerUI from 'swagger-ui';
+
 
 import { AddonService } from "./addon.service";
 
@@ -30,25 +30,6 @@ export class AddonComponent implements OnInit {
     }
 
     ngOnInit() {
-        window['global'] = window;
-        this.load().then(() => console.log("loaded"));
-    }
-
-    async load() {
-        const spec = await this.addonService.getSpec();
-        spec.servers = [{
-            "url" : this.session.getPapiBaseUrl(),
-            "description" : "Current Enviroment"
-        }]            
-
-        const node = document.getElementById('swagger-ui-item');
-        console.log(node)
-        const i = SwaggerUI({
-            domNode: node,
-            spec: spec
-          });
-
-          const token = this.session.getIdpToken();
-          i.preauthorizeApiKey("bearerAuth", token);
+        
     }
 }

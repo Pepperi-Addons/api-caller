@@ -42,21 +42,21 @@ module.exports = (config, options, env) => {
             new webpack.ProvidePlugin({
                 Buffer: ['buffer', 'Buffer'],
             }),
-            new ModuleFederationPlugin({
-                name: `${filename}`,
-                filename: `${filename}.js`,
-                exposes: {
-                  './AddonModule': './src/app/addon/index.ts'
-                },
-                shared: share({
-                    "@angular/core": { eager: true, singleton: true, strictVersion: true, requiredVersion: 'auto' },
-                    "@angular/common": { eager: true, singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
-                    "@angular/common/http": { eager: true, singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
-                    "@angular/router": { eager: true, singleton: true, strictVersion: true, requiredVersion: 'auto' },
+            // new ModuleFederationPlugin({
+            //     name: `${filename}`,
+            //     filename: `${filename}.js`,
+            //     exposes: {
+            //       './AddonModule': './src/app/addon/index.ts'
+            //     },
+            //     shared: share({
+            //         "@angular/core": { eager: true, singleton: true, strictVersion: true, requiredVersion: 'auto' },
+            //         "@angular/common": { eager: true, singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
+            //         "@angular/common/http": { eager: true, singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
+            //         "@angular/router": { eager: true, singleton: true, strictVersion: true, requiredVersion: 'auto' },
                     
-                    ...sharedMappings.getDescriptors()
-                })
-            }),
+            //         ...sharedMappings.getDescriptors()
+            //     })
+            // }),
             sharedMappings.getPlugin()
         ],
     }
