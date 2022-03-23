@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
-import { PepLayoutService, PepScreenSizeType, PepSessionService } from '@pepperi-addons/ngx-lib';
+import { KeyValuePair, PepLayoutService, PepScreenSizeType, PepSessionService } from '@pepperi-addons/ngx-lib';
 import { TranslateService } from '@ngx-translate/core';
 import SwaggerUI from 'swagger-ui';
+import { v4 as uuid } from 'uuid'
 
 import { AddonService } from "./addon.service";
 
@@ -68,7 +69,16 @@ const spec = {
           }],
           "responses" : {
             "200" : {
-              "description" : "OK"
+              "description" : "OK",
+              "headers":{
+                  "X-Pepperi-ActionID": {
+                      "schema": {
+                          "type": "string",
+                          "format": "Guid"
+                      },
+                      "description": "this is a test"
+                  }
+              }
             }
           }
         }
@@ -124,6 +134,10 @@ export class AddonComponent implements OnInit {
     
     screenSize: PepScreenSizeType;
 
+    apiCallHistory: ApiCall[] = [];
+    apiCallHistoryString: string = ''
+    lastAction:string = '';
+
     constructor(
         public addonService: AddonService,
         public layoutService: PepLayoutService,
@@ -139,14 +153,38 @@ export class AddonComponent implements OnInit {
     ngOnInit() {
         spec.servers = [{
             "url" : this.session.getPapiBaseUrl(),
-            "description" : "Current Enviroment"
+            "description" : "Current Enviroment",
         }]            
 
         const node = document.getElementById('swagger-ui-item');
         console.log(node)
         const i = SwaggerUI({
             domNode: node,
-            spec: spec
+            spec: spec,
+            requestInterceptor: (request) => {
+                this.lastAction = uuid();
+                request.headers = {
+                    ...request.headers,
+                    "X-Pepperi-ActionID": this.lastAction,
+                }
+                this.apiCallHistory.push({
+                    ActionUUID: this.lastAction,
+                })
+                return request;
+            },
+            responseInterceptor: (response)=> {
+                let index = this.apiCallHistory.findIndex(call => call.ActionUUID == this.lastAction);
+                const call: ApiCall = {
+                    ActionUUID: this.lastAction,
+                    URL: response.url,
+                    Duration: response.duration,
+                    Response: response.obj,
+                    Status: response.status
+                }
+                this.apiCallHistory.splice(index, 1, call);
+                this.apiCallHistoryString = JSON.stringify(this.apiCallHistory);
+                console.log(response);
+            },
           });
 
           const token = this.session.getIdpToken();
@@ -158,3 +196,14 @@ export class AddonComponent implements OnInit {
         
     }
 }
+
+export interface ApiCall {
+    ActionUUID: string;
+    URL?: string;
+    Body?: any;
+    Response?: any;
+    Duration?: number;
+    Status?: number;
+    Error?: string;
+}
+
