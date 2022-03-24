@@ -8,7 +8,7 @@ import { v4 as uuid } from 'uuid'
 @Component({
   selector: 'app-swagger-ui',
   templateUrl: './swagger-ui.component.html',
-  styleUrls: ['./swagger-ui.component.css']
+  styleUrls: ['./swagger-ui.component.scss']
 })
 export class SwaggerUiComponent implements OnInit, OnChanges {
 

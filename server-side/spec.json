@@ -545,6 +545,143 @@
         ]
       }
     },
+    "/users": {
+      "get": {
+        "summary": "Users",
+        "description": "This is an endpoint to retreive all users Pepperi's system",
+        "parameters": [
+          {
+            "name": "Fields",
+            "in": "query",
+            "description": "List of fields (comma seperated) to retrieve from the object",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number to retrieve (zero based)",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "number of items each page contains",
+            "schema": {
+              "type": "integer",
+              "minimum": -1
+            }
+          },
+          {
+            "name": "where",
+            "in": "query",
+            "description": "where clause to filter returned objects",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "include_deleted",
+            "in": "query",
+            "description": "wether to retrieve hidden items",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "include_count",
+            "in": "query",
+            "description": "returns on the headers the number of objects exists in the system",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/meta_data/data_views": {
+      "get": {
+        "summary": "Data Views",
+        "description": "This is an endpoint to retreive all Data Views in Pepperi's system",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number to retrieve (zero based)",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "number of items each page contains",
+            "schema": {
+              "type": "integer",
+              "minimum": -1
+            }
+          },
+          {
+            "name": "where",
+            "in": "query",
+            "description": "where clause to filter returned objects",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "include_deleted",
+            "in": "query",
+            "description": "wether to retrieve hidden items",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Data Views"
+        ]
+      },
+      "post": {
+        "summary": "POST a single Data View",
+        "description": "This is an endpoint to upsert a Data View in Pepperi's system",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Data Views"
+        ]
+      }
+    },
     "/inventory": {
       "get": {
         "summary": "Inventory",
@@ -1233,7 +1370,7 @@
             "in": "path",
             "description": "The ID of the version",
             "schema": {
-              "type": "number"
+              "type": "string"
             },
             "required": true
           }
@@ -1337,6 +1474,72 @@
         ]
       }
     },
+    "/user_defined_tables": {
+      "get": {
+        "summary": "Get UDT Rows",
+        "description": "all rows",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "List of fields (comma seperated) to retrieve from the object",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number to retrieve (zero based)",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "number of items each page contains",
+            "schema": {
+              "type": "integer",
+              "minimum": -1
+            }
+          },
+          {
+            "name": "where",
+            "in": "query",
+            "description": "where clause to filter returned objects",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "include_deleted",
+            "in": "query",
+            "description": "wether to retrieve hidden items",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "include_count",
+            "in": "query",
+            "description": "returns on the headers the number of objects exists in the system",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "User Defined Tables"
+        ]
+      }
+    },
     "/audit_logs/{uuid}": {
       "get": {
         "summary": "Get the Audit Log",
@@ -1415,6 +1618,14 @@
     {
       "name": "Addons",
       "description": "Manage Pepperi Addons"
+    },
+    {
+      "name": "User Defined Tables",
+      "description": "User Defined Tables"
+    },
+    {
+      "name": "Data Views",
+      "description": "Data Views"
     }
   ]
 }
