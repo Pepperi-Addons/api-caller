@@ -47,11 +47,10 @@ export class SwaggerUiComponent implements OnInit, OnChanges {
             domNode: node,
             spec: this.spec,
             requestInterceptor: (request) => {
-                console.log(request);
                 this.lastCall = { 
                     ActionUUID: uuid(),
                     Body: request.body,
-                    URL: request.url,
+                    URL: request.url.replace(this.session.getPapiBaseUrl(), ""),
                     Method: request.method,
                     Timestamp: new Date()
                 }
@@ -64,12 +63,10 @@ export class SwaggerUiComponent implements OnInit, OnChanges {
             responseInterceptor: (response)=> {
                 const call: ApiCall = {
                     ...this.lastCall,
-                    Duration: response.duration,
                     Response: response.obj,
-                    Status: response.status
+                    Success: response.status === 200
                 }
                 this.addonService.addCallHistory(call);
-                console.log(response);
             },
           });
 
@@ -85,8 +82,7 @@ export interface ApiCall {
     URL: string;
     Body?: any;
     Response?: any;
-    Duration?: number;
-    Status?: number;
+    Success?: boolean;
     Error?: string;
     Method: string;
     Timestamp: Date;

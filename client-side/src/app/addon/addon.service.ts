@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 import { PepHttpService, PepSessionService } from '@pepperi-addons/ngx-lib';
 import { ApiCall } from '../swagger-ui/swagger-ui.component';
 
+import { v4 as uuid } from 'uuid';
+
 export const CallsHistoryKey = 'UserCallHistory'
 @Injectable({ providedIn: 'root' })
 export class AddonService {
@@ -72,11 +74,43 @@ export class AddonService {
     async getCloudWatchLogs(actionID: string, timeStamp: Date): Promise<any> {
         return await this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('logs').get({
             ActionUUID: actionID,
-            TimeStamp: timeStamp.toISOString()
+            TimeStamp: timeStamp
         });
     }
 
     updateCollection(collection: any): Promise<any> {
         return this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('api_collections').post({}, collection);
+    }
+
+    async makeApiCall(data: ApiCall): Promise<any> {
+        return new Promise(async (resolve, reject)=> {
+            let value;
+            const call: ApiCall = {
+                ActionUUID: uuid(),
+                URL: data.URL,
+                Method: data.Method,
+                Timestamp: new Date(),
+                Body: data.Body,
+            }
+            try {
+                if (data.Method === 'GET') {
+                    value = await this.papiClient.get(data.URL);
+                }
+                else if(data.Method === 'POST') {
+                    value = await this.papiClient.post(data.URL, data.Body);
+                }
+                call.Response = value;  
+                call.Success = true;  
+                resolve(value);
+            }
+            catch (error) {
+                call.Response = error.message;
+                call.Success = false;
+                reject(error);
+            }
+            finally {
+                this.addCallHistory(call);
+            }
+        })
     }
 }

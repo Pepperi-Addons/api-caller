@@ -5,7 +5,7 @@ import { AddonService } from '../../addon/addon.service';
 import { IPepGenericListActions, IPepGenericListDataSource, PepGenericListService, IPepGenericListTableInputs } from "@pepperi-addons/ngx-composite-lib/generic-list";
 
 import { PepSelectionData } from "@pepperi-addons/ngx-lib/list";
-import { PepDialogService } from "@pepperi-addons/ngx-lib/dialog";
+import { PepDialogData, PepDialogService } from "@pepperi-addons/ngx-lib/dialog";
 import { ApiCall } from 'src/app/swagger-ui/swagger-ui.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { PepCustomizationService } from '@pepperi-addons/ngx-lib';
@@ -90,9 +90,9 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
                                 ReadOnly: true
                             },
                             {
-                                FieldID: 'Status',
-                                Type: 'TextBox',
-                                Title: this.translate.instant('Response Status'),
+                                FieldID: 'Success',
+                                Type: 'ComboBox',
+                                Title: this.translate.instant('Successful'),
                                 Mandatory: false,
                                 ReadOnly: true
                             },
@@ -221,6 +221,12 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
                         this.callResponse = rowData.Response;
                         this.dialogService.openDialog(this.responseTemplate, undefined);
                     }
+                },
+                {
+                    title: this.translate.instant('Run Again'),
+                    handler: async (objs) => {
+                        this.makeApiCall(rowData);
+                    }
                 });
                 if (rowData && rowData.Body) {
                     actions.push(
@@ -249,4 +255,20 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
         return this.history.find(item => item.ActionUUID === this.actionID);
     }
 
+    makeApiCall(data: ApiCall) {
+        const dataMsg = new PepDialogData({
+            title: this.translate.instant('History_ReRun_Dialog_Title'),
+            actionsType: 'close'
+        });
+        this.addonService.makeApiCall(data).then((value)=> {
+            dataMsg.content = this.translate.instant('History_ReRun_Success_Content', {response: value})
+        }).catch((error) => {
+            dataMsg.content = this.translate.instant('History_ReRun_Failed_Content', {error: error})
+        }).finally(()=> {            
+            this.dialogService.openDefaultDialog(dataMsg).afterClosed().subscribe(() => {
+                this.history = this.addonService.getCallHistory();
+                this.dataSource = this.getDataSource();
+            })
+        });
+    }
 }

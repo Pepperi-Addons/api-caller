@@ -5,5 +5,8 @@
     "Response_Title": "Response.Body object",
     "Body_Title": "Request.Body object",
     "Logs_List_Title": "Call logs for {{actionID}}",
-    "Logs_List_NoDataFound":"There are no logs to show at the moment. <br /> Logs can take couple of minutes to show, please use the refresh button to try again"
+    "Logs_List_NoDataFound":"There are no logs to show at the moment. <br /> Logs can take couple of minutes to show, please use the refresh button to try again",
+    "History_ReRun_Dialog_Title": "Run again",
+    "History_ReRun_Success_Content": "Run again finished successfully. Response.body: <br /> <ngx-json-viewer [json]=\"{{response}}\"></ngx-json-viewer>",
+    "History_ReRun_Failed_Content": "Run again has failed with error {{error}}"
 }
