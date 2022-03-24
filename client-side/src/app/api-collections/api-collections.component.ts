@@ -15,19 +15,25 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
   constructor(
     public addonService: AddonService,
     public dialogService: PepDialogService
-  ) { }
+  ) { 
+
+  }
+
+  ngOnInit(): void {
+  }
+
+  @Input()
+  load = false;
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("collections changed");
-    if (this.collections) {
-      this.dataSource = this.getDataSource()
+    if (this.load) {
+      this.reload();
     }
   }
 
   edit: boolean = false;
   collection: any = undefined;
 
-  @Input()
   collections: any[] = [];
 
   dataSource: IPepGenericListDataSource | undefined = undefined; 
@@ -35,6 +41,7 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
   actions: IPepGenericListActions = {
     get: async (data: PepSelectionData) => {
         const actions = [];
+        console.log(data)
         if (data && data.rows.length == 1) {
           actions.push({
             title: 'Show',
@@ -143,10 +150,10 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
 
       init: async(params:any) => {
         console.log('init list', params);
-        let collections = await this.addonService.getCollections(this.getCollectionsOptions(params));
+        this.collections = await this.addonService.getCollections(this.getCollectionsOptions(params));
 
         if (params.searchString) {
-          collections = collections.filter(c => c.Name.toLowerCase().indexOf(params.searchString.toLowerCase()) > -1);
+          this.collections = this.collections.filter(c => c.Name.toLowerCase().indexOf(params.searchString.toLowerCase()) > -1);
         }
 
         return Promise.resolve({
@@ -196,8 +203,8 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
                 FrozenColumnsCount: 0,
                 MinimumColumnWidth: 0
             },
-            totalCount: collections.length,
-            items: collections
+            totalCount: this.collections.length,
+            items: this.collections
         });
     },
     inputs: () => {
@@ -209,9 +216,6 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
         });
     },
     };
-  }
-
-  ngOnInit(): void {
   }
 
   createCollection() {
