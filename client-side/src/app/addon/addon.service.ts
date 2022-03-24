@@ -75,4 +75,8 @@ export class AddonService {
             TimeStamp: timeStamp.toISOString()
         });
     }
+
+    updateCollection(collection: any): Promise<any> {
+        return this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('api_collections').post({}, collection);
+    }
 }

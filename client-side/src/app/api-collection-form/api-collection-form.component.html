@@ -1,0 +1,25 @@
+<pep-dialog [title]="editMode ? 'Edit API Collection' : 'Create an API Collection'">
+    <ng-container pep-dialog-content>
+       <pep-textbox [(value)]="collection.Name" [label]="'Name'" [mandatory]="true"></pep-textbox>
+       <pep-textarea [(value)]="collection.Description" [label]="'Description'" [rowSpan]="2" ></pep-textarea>
+    </ng-container>
+    <ng-container pep-dialog-actions>
+        <div class="pep-spacing-element-negative" style="display: flex;">         
+            <pep-button 
+                class="pep-spacing-element"
+                [sizeType]="'md'" 
+                [value]="'Cancel' | translate" 
+                [styleType]="'weak'" 
+                (buttonClick)="close()"
+            ></pep-button>
+            <pep-button 
+                class="pep-spacing-element"
+                [sizeType]="'md'" 
+                [value]="'Save' | translate" 
+                [styleType]="'strong'" 
+                [disabled]="!collection.Name"
+                (buttonClick)="save()"
+            ></pep-button>
+        </div>
+    </ng-container>
+</pep-dialog>
