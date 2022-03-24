@@ -107,10 +107,11 @@ export async function openapi_spec()
 
 export async function logs(client: Client, request: Request) {
     const service = new MyService(client);
-    const actionID = request.query?.ActionUUID
+    const actionID = request.query?.ActionUUID;
+    const timeStamp: Date = request.query?.TimeStamp;
     let res: any;
 
-    res = await service.getLogs(actionID);
+    res = await service.getLogs(actionID, new Date(timeStamp));
 
     return res
 }

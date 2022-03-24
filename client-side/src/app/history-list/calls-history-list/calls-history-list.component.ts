@@ -2,13 +2,13 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewCh
 import { TranslateService } from '@ngx-translate/core';
 import { AddonService } from '../../addon/addon.service';
 
-import { IPepGenericListActions, IPepGenericListDataSource, PepGenericListService } from "@pepperi-addons/ngx-composite-lib/generic-list";
+import { IPepGenericListActions, IPepGenericListDataSource, PepGenericListService, IPepGenericListTableInputs } from "@pepperi-addons/ngx-composite-lib/generic-list";
 
 import { PepSelectionData } from "@pepperi-addons/ngx-lib/list";
-import { PepMenuItem } from "@pepperi-addons/ngx-lib/menu";
-import { PepDialogData, PepDialogService } from "@pepperi-addons/ngx-lib/dialog";
+import { PepDialogService } from "@pepperi-addons/ngx-lib/dialog";
 import { ApiCall } from 'src/app/swagger-ui/swagger-ui.component';
 import { MatDialogRef } from '@angular/material/dialog';
+import { PepCustomizationService } from '@pepperi-addons/ngx-lib';
 
 @Component({
   selector: 'app-calls-history-list',
@@ -36,6 +36,7 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
                 public addonService: AddonService,
                 public dialogService: PepDialogService,
                 public genericListService: PepGenericListService,
+                public customizationService: PepCustomizationService
                 ) { }
 
 
@@ -69,7 +70,7 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
                             },
                             {
                                 FieldID: 'Timestamp',
-                                Type: 'TextBox',
+                                Type: 'DateAndTime',
                                 Title: this.translate.instant('Timestamp'),
                                 Mandatory: false,
                                 ReadOnly: true
@@ -155,7 +156,7 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
                             },
                             {
                                 FieldID: 'DateTimeStamp',
-                                Type: 'TextBox',
+                                Type: 'DateAndTime',
                                 Title: this.translate.instant('Timestamp'),
                                 Mandatory: false,
                                 ReadOnly: true
@@ -170,13 +171,13 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
                         ],
                         Columns: [
                             {
-                                Width: 25
+                                Width: 80
                             },
                             {
-                                Width: 25
+                                Width: 10
                             },
                             {
-                                Width: 25
+                                Width: 10
                             },
                         ],
           
@@ -188,9 +189,12 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
                 });
             },
             inputs: () => {
+                
                 return Promise.resolve({
                     pager: {
-                        type: 'pages'
+                        type: 'pages',
+                        size: 11
+                        
                     },
                     selectionType: 'none',
                     noDataFoundMsg: this.translate.instant('Logs_List_NoDataFound')
@@ -203,12 +207,11 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
         get: async (data: PepSelectionData) => {
             const actions = [];
             if (data && data.rows.length == 1) {
-                const itemKey = data.rows[0];
-                const rowData = this.history.find(item => item.ActionUUID === itemKey);
+                this.actionID = data.rows[0];
+                const rowData = this.getSelectedRowData();
                 actions.push({
                     title: this.translate.instant('Logs'),
                     handler: async (objs) => {
-                        this.actionID = objs.rows[0];
                         this.getLogs();
                     }
                 },
@@ -237,8 +240,13 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
     }
 
     async getLogs() {
-        this.logs = await this.addonService.getCloudWatchLogs(this.actionID);
+        const rowData: ApiCall = this.getSelectedRowData();
+        this.logs = await this.addonService.getCloudWatchLogs(this.actionID, rowData.Timestamp);
         this.logsDataSource = this.getLogsDataSource();
+    }
+
+    getSelectedRowData(): ApiCall {
+        return this.history.find(item => item.ActionUUID === this.actionID);
     }
 
 }
