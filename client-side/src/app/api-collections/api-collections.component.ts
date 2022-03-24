@@ -57,6 +57,57 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
                   
               }
           })
+          actions.push({
+            title: 'Export Specification',
+            handler: async (obj) => {
+              const key = obj.rows[0];
+              if (key) {
+                const collection = this.collections.find(c => c.Key == key);
+                if (collection) {
+                  const filename = collection.Name + '.json';
+                  const blob = new Blob([JSON.stringify(collection.Spec)], {type: 'text/json'});
+                  if((window.navigator as any).msSaveOrOpenBlob) {
+                    (window.navigator as any).msSaveBlob(blob, filename);
+                  }
+                  else{
+                      const elem = window.document.createElement('a');
+                      elem.href = window.URL.createObjectURL(blob);
+                      elem.download = filename;        
+                      document.body.appendChild(elem);
+                      elem.click();        
+                      document.body.removeChild(elem);
+                  }
+              }
+            }
+          }
+        });
+
+        actions.push({
+          title: 'Import Specification',
+          handler: async (obj) => {
+            const key = obj.rows[0];
+            if (key) {
+              const collection = this.collections.find(c => c.Key == key);
+              if (collection) {
+                const elem = window.document.createElement('input');
+                elem.setAttribute("type", "file");
+                elem.click();
+                elem.onchange = async (e) => {
+                  const file = elem.files[0]; 
+                  if (file) {
+                    const spec = await file.text();
+                    if (spec) {
+                      collection.Spec = JSON.parse(spec);
+                      await this.addonService.updateCollection(collection);
+                      this.collections = await this.addonService.getCollections();
+                      this.dataSource = this.getDataSource();
+                    }
+                  }
+                }
+            }
+          }
+        }
+      });
         return actions;
       }
     }
@@ -91,6 +142,13 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
                         Mandatory: false,
                         ReadOnly: true
                     },
+                    {
+                      FieldID: 'ModificationDateTime',
+                      Type: 'DateAndTime',
+                      Title: 'Last Modified',
+                      Mandatory: false,
+                      ReadOnly: true
+                  },
                 ],
                 Columns: [
                     {
@@ -98,7 +156,10 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
                     },
                     {
                         Width: 50
-                    }
+                    },
+                    {
+                      Width: 20
+                  },
                 ],
   
                 FrozenColumnsCount: 0,
