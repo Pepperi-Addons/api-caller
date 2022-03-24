@@ -137,6 +137,8 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
     getLogsDataSource() {
         return {
             init: async(params:any) => {
+                const rowData: ApiCall = this.getSelectedRowData();
+                this.logs = await this.addonService.getCloudWatchLogs(this.actionID, rowData.Timestamp, params.searchString);
                 return Promise.resolve({
                     dataView: {
                         Context: {
@@ -246,8 +248,6 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
     }
 
     async getLogs() {
-        const rowData: ApiCall = this.getSelectedRowData();
-        this.logs = await this.addonService.getCloudWatchLogs(this.actionID, rowData.Timestamp);
         this.logsDataSource = this.getLogsDataSource();
     }
 

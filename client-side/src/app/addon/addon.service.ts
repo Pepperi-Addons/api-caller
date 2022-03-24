@@ -67,14 +67,19 @@ export class AddonService {
         return history || []
     }
 
+    clearCallHistory() {
+        this.session.removeObject(CallsHistoryKey);
+    }
+
     getCollections(options: any = undefined): Promise<any> {
         return this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('api_collections').get(options);
     }
     
-    async getCloudWatchLogs(actionID: string, timeStamp: Date): Promise<any> {
+    async getCloudWatchLogs(actionID: string, timeStamp: Date, searchString: string): Promise<any> {
         return await this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('logs').get({
             ActionUUID: actionID,
-            TimeStamp: timeStamp
+            TimeStamp: timeStamp,
+            SearchString: searchString
         });
     }
 

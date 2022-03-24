@@ -109,9 +109,10 @@ export async function logs(client: Client, request: Request) {
     const service = new MyService(client);
     const actionID = request.query?.ActionUUID;
     const timeStamp: Date = request.query?.TimeStamp;
+    const searchString: string = request.query?.SearchString;
     let res: any;
 
-    res = await service.getLogs(actionID, new Date(timeStamp));
+    res = await service.getLogs(actionID, new Date(timeStamp), searchString);
 
     return res
 }

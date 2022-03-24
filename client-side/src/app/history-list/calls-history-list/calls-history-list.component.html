@@ -6,9 +6,18 @@
         [inline]="true"
         [actions]="actions"
         [addPadding]="false"
-        [showSearch]="false"
+        [showSearch]="true"
         [uuidMapping]="'ActionUUID'"
         >
+        <ng-container right-buttons>
+            <pep-button
+                class="pep-spacing-element"
+                [sizeType]="'sm'" 
+                [styleType]="'strong'" 
+                (buttonClick)="addonService.clearCallHistory()" 
+                [value]="'Clear History'">
+            </pep-button>
+        </ng-container>
     </pep-generic-list>
 </div>
 <div class="genericListContainer" *ngIf="logs">
@@ -19,7 +28,7 @@
         [dataSource]="logsDataSource" 
         [inline]="true"
         [addPadding]="false"
-        [showSearch]="false"
+        [showSearch]="true"
         >
         <ng-container right-buttons>
             <pep-button

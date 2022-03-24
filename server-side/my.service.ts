@@ -117,23 +117,28 @@ class MyService {
         return this.papiClient.addons.data.uuid(this.addonUUID).table('api_collections').upsert(collection);
     }
 
-    async getLogs(actionID: string, timeStamp: Date): Promise<any> {
+    async getLogs(actionID: string, timeStamp: Date, searchString: string): Promise<any> {
         const start = new Date(timeStamp.getTime() - 3600000)
         const end = new Date(timeStamp.getTime() + 3600000)
-        return this.papiClient.post("/logs", {
+        const body = {
             Groups: [
                 "AsyncAddon",
                 "Addon",
                 "PAPI"
             ],
             Fields: "Message, DateTimeStamp,Level",
-            Filter: `ActionUUID LIKE /${actionID}/`,
+            Filter: `ActionUUID = '${actionID}'`,
             PageSize: 1000,
             DateTimeStamp: {
                 Start: start.toISOString(),
                 End: end.toISOString()
             }
-        })
+        }
+        if (searchString) {
+            body.Filter += ` AND Message LIKE /${searchString}/`
+        }
+        console.log(body);
+        return this.papiClient.post("/logs", body)
     }
 }
 

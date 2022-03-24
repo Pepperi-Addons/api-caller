@@ -60,6 +60,9 @@ export class SwaggerUiComponent implements OnInit, OnChanges {
                 return request;
             },
             responseInterceptor: (response)=> {
+                if (response.body.ExecutionUUID) {
+                    this.lastCall.ActionUUID = response.body.ExecutionUUID;
+                }
                 const call: ApiCall = {
                     ...this.lastCall,
                     Response: response.obj,
