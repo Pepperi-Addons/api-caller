@@ -1,4 +1,16 @@
 <div *ngIf="!edit && collections">
+    <h2 mat-dialog-title class="mat-dialog-title pepperi-border-bottom">
+            <p style="font-weight: bold;">
+                Create your own collections of API Endpoints.
+            </p>
+            
+    </h2>
+    <p>
+        Collections specifications are defined using the <a href="https://swagger.io/specification/" target="_blank" rel="noopener noreferrer">Open API Specification</a>
+    </p>
+    <p>
+        You can drog the JSON spec file in  <a href="https://editor.swagger.io/?docExpansion=none" target="_blank" rel="noopener noreferrer">this</a> editor to edit and see live results
+    </p>
     <div class="genericListContainer">
         <pep-generic-list
             [title] = "'User API Collections'"
