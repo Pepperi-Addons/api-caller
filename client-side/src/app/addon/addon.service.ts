@@ -3,7 +3,7 @@ import jwt from 'jwt-decode';
 import { PapiClient } from '@pepperi-addons/papi-sdk';
 import { Injectable } from '@angular/core';
 
-import { PepHttpService, PepSessionService } from '@pepperi-addons/ngx-lib';
+import { PepHttpService, PepLoaderService, PepSessionService } from '@pepperi-addons/ngx-lib';
 import { ApiCall } from '../swagger-ui/swagger-ui.component';
 
 import { v4 as uuid } from 'uuid';
@@ -28,7 +28,8 @@ export class AddonService {
 
     constructor(
         public session:  PepSessionService,
-        private pepHttp: PepHttpService
+        private pepHttp: PepHttpService,
+        private loaderService: PepLoaderService
     ) {
         const accessToken = this.session.getIdpToken();
         this.parsedToken = jwt(accessToken);
@@ -52,8 +53,11 @@ export class AddonService {
 
     }
 
-    getSpec(): Promise<any> {
-        return this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('json_spec').get();
+    async getSpec(): Promise<any> {
+        this.loaderService.show();
+        const res = await this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('json_spec').get();
+        this.loaderService.hide()
+        return res;
     }
 
     addCallHistory(call: ApiCall) {
@@ -75,24 +79,34 @@ export class AddonService {
         this.session.removeObject(CallsHistoryKey);
     }
 
-    getCollections(options: any = undefined): Promise<any> {
-        return this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('api_collections').get(options);
+    async getCollections(options: any = undefined): Promise<any> {
+        this.loaderService.show();
+        const res = await this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('api_collections').get(options);
+        this.loaderService.hide()
+        return res;
     }
     
     async getCloudWatchLogs(actionID: string, timeStamp: Date, searchString: string): Promise<any> {
-        return await this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('logs').get({
+        this.loaderService.show();
+        const res = await this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('logs').get({
             ActionUUID: actionID,
             TimeStamp: timeStamp,
             SearchString: searchString
-        });
+        })
+        this.loaderService.hide()
+        return res;
     }
 
-    updateCollection(collection: any): Promise<any> {
-        return this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('api_collections').post({}, collection);
+    async updateCollection(collection: any): Promise<any> {
+        this.loaderService.show();
+        const res = await this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('api_collections').post({}, collection);
+        this.loaderService.hide()
+        return res;
     }
 
     async makeApiCall(data: ApiCall): Promise<any> {
-        return new Promise(async (resolve, reject)=> {
+        this.loaderService.show();
+        const res = await new Promise(async (resolve, reject)=> {
             let value;
             const call: ApiCall = {
                 ActionUUID: uuid(),
@@ -121,5 +135,7 @@ export class AddonService {
                 this.addCallHistory(call);
             }
         })
+        this.loaderService.hide()
+        return res
     }
 }
