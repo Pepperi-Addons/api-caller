@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PepAddonService, PepNgxLibModule } from '@pepperi-addons/ngx-lib';
 
-import { TranslateModule, TranslateLoader, TranslateStore } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateStore, TranslateService } from '@ngx-translate/core';
 
 import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
@@ -27,6 +27,11 @@ import { PepGenericListModule } from '@pepperi-addons/ngx-composite-lib/generic-
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { PepDialogModule } from '@pepperi-addons/ngx-lib/dialog';
 import { ApiCollectionFormComponent } from './api-collection-form/api-collection-form.component';
+import { PepIconRegistry, pepIconSystemClose } from '@pepperi-addons/ngx-lib/icon';
+
+const pepIcons = [
+    pepIconSystemClose,
+];
 
 @NgModule({
     declarations: [
@@ -74,4 +79,12 @@ import { ApiCollectionFormComponent } from './api-collection-form/api-collection
     bootstrap: [AppComponent]
 })
 export class AppModule {
+    constructor(
+        translate: TranslateService,
+        private pepIconRegistry: PepIconRegistry,
+        private pepAddonService: PepAddonService
+    ) {
+        this.pepAddonService.setDefaultTranslateLang(translate);
+        this.pepIconRegistry.registerIcons(pepIcons);
+    }
 }
