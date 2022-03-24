@@ -17,6 +17,8 @@ import { PepSizeDetectorModule} from '@pepperi-addons/ngx-lib/size-detector';
 import { PepTopBarModule } from '@pepperi-addons/ngx-lib/top-bar';
 import { PepPageLayoutModule } from '@pepperi-addons/ngx-lib/page-layout';
 import { PepButtonModule } from '@pepperi-addons/ngx-lib/button';
+import { PepTextboxModule } from '@pepperi-addons/ngx-lib/textbox';
+import { PepTextareaModule } from '@pepperi-addons/ngx-lib/textarea';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ApiCollectionsComponent } from './api-collections/api-collections.component';
 import { CallsHistoryListComponent } from './history-list/calls-history-list/calls-history-list.component';
@@ -24,6 +26,7 @@ import { PepGenericListModule } from '@pepperi-addons/ngx-composite-lib/generic-
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { PepDialogModule } from '@pepperi-addons/ngx-lib/dialog';
+import { ApiCollectionFormComponent } from './api-collection-form/api-collection-form.component';
 
 @NgModule({
     declarations: [
@@ -32,6 +35,7 @@ import { PepDialogModule } from '@pepperi-addons/ngx-lib/dialog';
         SwaggerUiComponent,
         ApiCollectionsComponent,
         CallsHistoryListComponent,
+        ApiCollectionFormComponent,
     ],
     imports: [
         BrowserModule,
@@ -43,6 +47,8 @@ import { PepDialogModule } from '@pepperi-addons/ngx-lib/dialog';
         PepTopBarModule,
         PepPageLayoutModule,
         PepButtonModule,
+        PepTextboxModule,
+        PepTextareaModule,
         MatTabsModule,
         PepDialogModule,
         PepGenericListModule,

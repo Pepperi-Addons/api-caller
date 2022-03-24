@@ -1,7 +1,9 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IPepGenericListActions, IPepGenericListDataSource } from '@pepperi-addons/ngx-composite-lib/generic-list';
+import { PepDialogData, PepDialogService } from '@pepperi-addons/ngx-lib/dialog';
 import { PepSelectionData } from '@pepperi-addons/ngx-lib/list';
 import { AddonService } from '../addon/addon.service';
+import { ApiCollectionFormComponent } from '../api-collection-form/api-collection-form.component';
 
 @Component({
   selector: 'app-api-collections',
@@ -12,6 +14,7 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
 
   constructor(
     public addonService: AddonService,
+    public dialogService: PepDialogService
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -47,8 +50,25 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
           });
           actions.push({
             title: 'Edit',
-            handler: async (objs) => {
-                
+            handler: async (obj) => {
+              const key = obj.rows[0];
+              if (key) {
+                const collection = this.collections.find(c => c.Key == key);
+                const config = this.dialogService.getDialogConfig({}, 'inline');
+                const formData = {
+                  collection: collection
+                }
+                config.data = new PepDialogData({
+                    content: ApiCollectionFormComponent
+                })
+                this.dialogService.openDialog(ApiCollectionFormComponent, formData, config).afterClosed().subscribe(async (value) => {
+                    if (value) {
+                        console.log('value got:', value);
+                        await this.addonService.updateCollection(value);
+                        await this.reload();
+                    }
+                });
+              }
             }
           });
           actions.push({
