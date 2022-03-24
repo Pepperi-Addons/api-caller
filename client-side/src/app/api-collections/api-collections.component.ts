@@ -53,8 +53,16 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
           });
           actions.push({
               title: 'Delete',
-              handler: async (objs) => {
-                  
+              handler: async (obj) => {
+                const key = obj.rows[0];
+                if (key) {
+                  const collection = this.collections.find(c => c.Key == key);
+                  if (collection) {
+                    collection.Hidden = true;
+                    await this.addonService.updateCollection(collection);
+                    await this.reload();
+                  }
+                }
               }
           })
           actions.push({
@@ -99,8 +107,7 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
                     if (spec) {
                       collection.Spec = JSON.parse(spec);
                       await this.addonService.updateCollection(collection);
-                      this.collections = await this.addonService.getCollections();
-                      this.dataSource = this.getDataSource();
+                      await this.reload()
                     }
                   }
                 }
@@ -184,5 +191,10 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
   }
 
   createCollection() {
+  }
+
+  async reload() {
+    this.collections = await this.addonService.getCollections();
+    this.dataSource = this.getDataSource();
   }
 }
