@@ -105,8 +105,7 @@ export class AddonService {
     }
 
     async makeApiCall(data: ApiCall): Promise<any> {
-        this.loaderService.show();
-        const res = await new Promise(async (resolve, reject)=> {
+        return await new Promise(async (resolve, reject)=> {
             let value;
             const call: ApiCall = {
                 ActionUUID: uuid(),
@@ -134,8 +133,6 @@ export class AddonService {
             finally {
                 this.addCallHistory(call);
             }
-        })
-        this.loaderService.hide()
-        return res
+        });
     }
 }
