@@ -1370,7 +1370,7 @@
             "in": "path",
             "description": "The ID of the version",
             "schema": {
-              "type": "number"
+              "type": "string"
             },
             "required": true
           }
