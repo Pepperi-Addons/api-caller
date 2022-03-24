@@ -127,11 +127,28 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
     }
   }
 
+  getCollectionsOptions(params: any) {
+    const options: any = {};
+
+    // this doesn't work
+    // if (params.searchString) {
+    //   options.where = `Name LIKE '%${params.searchString}'`
+    // }
+
+    return options;
+  }
+
   getDataSource(): IPepGenericListDataSource {
     return {
 
       init: async(params:any) => {
-        console.log('init list');
+        console.log('init list', params);
+        let collections = await this.addonService.getCollections(this.getCollectionsOptions(params));
+
+        if (params.searchString) {
+          collections = collections.filter(c => c.Name.toLowerCase().indexOf(params.searchString.toLowerCase()) > -1);
+        }
+
         return Promise.resolve({
             dataView: {
                 Context: {
@@ -179,8 +196,8 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
                 FrozenColumnsCount: 0,
                 MinimumColumnWidth: 0
             },
-            totalCount: this.collections.length,
-            items: this.collections
+            totalCount: collections.length,
+            items: collections
         });
     },
     inputs: () => {
@@ -202,7 +219,6 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
   }
 
   async reload() {
-    this.collections = await this.addonService.getCollections();
     this.dataSource = this.getDataSource();
   }
 
