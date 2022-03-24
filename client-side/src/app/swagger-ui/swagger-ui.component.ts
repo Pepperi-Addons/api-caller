@@ -59,16 +59,27 @@ export class SwaggerUiComponent implements OnInit, OnChanges {
                 }
                 return request;
             },
-            responseInterceptor: (response)=> {
+            responseInterceptor: async (response)=> {
                 if (response.body.ExecutionUUID) {
-                    this.lastCall.ActionUUID = response.body.ExecutionUUID;
+                    setTimeout(async () => {
+                        const obj = await this.addonService.papiClient.auditLogs.uuid(response.body.ExecutionUUID).get();
+                        this.lastCall.ActionUUID = obj.AuditInfo.AddonJobExecutionUUID;
+                        const call: ApiCall = {
+                            ...this.lastCall,
+                            Response: response.obj,
+                            Success: response.status === 200
+                        }
+                        this.addonService.addCallHistory(call);
+                    }, 2000);
                 }
-                const call: ApiCall = {
-                    ...this.lastCall,
-                    Response: response.obj,
-                    Success: response.status === 200
+                else {
+                    const call: ApiCall = {
+                        ...this.lastCall,
+                        Response: response.obj,
+                        Success: response.status === 200
+                    }
+                    this.addonService.addCallHistory(call);
                 }
-                this.addonService.addCallHistory(call);
             },
             plugins: [
               () => {

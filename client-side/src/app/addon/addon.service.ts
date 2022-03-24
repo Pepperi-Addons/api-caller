@@ -80,11 +80,14 @@ export class AddonService {
     }
     
     async getCloudWatchLogs(actionID: string, timeStamp: Date, searchString: string): Promise<any> {
-        return await this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('logs').get({
+        const params = {
             ActionUUID: actionID,
             TimeStamp: timeStamp,
-            SearchString: searchString
-        });
+        }
+        if (searchString != undefined && searchString != '') {
+            params['SearchString'] = searchString;
+        }
+        return await this.papiClient.addons.api.uuid("4fa8e62c-896a-4662-88b2-317d73d481d3").file('api').func('logs').get(params);
     }
 
     updateCollection(collection: any): Promise<any> {
