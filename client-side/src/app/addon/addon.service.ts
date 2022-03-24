@@ -63,7 +63,11 @@ export class AddonService {
     }
     
     getCallHistory(params: any = {}): ApiCall[] {
-        const history = this.session.getObject<ApiCall[]>(CallsHistoryKey);
+        let history = this.session.getObject<ApiCall[]>(CallsHistoryKey);
+        console.log('getHistory->params:', params);
+        if(params.searchString && history?.length > 0) {
+            history = history.filter(item => item.URL.indexOf(params.searchString) > -1)
+        }
         return history || []
     }
 

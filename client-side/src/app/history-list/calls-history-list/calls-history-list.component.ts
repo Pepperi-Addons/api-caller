@@ -9,6 +9,7 @@ import { PepDialogData, PepDialogService } from "@pepperi-addons/ngx-lib/dialog"
 import { ApiCall } from 'src/app/swagger-ui/swagger-ui.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { PepCustomizationService } from '@pepperi-addons/ngx-lib';
+import { isThisTypeNode } from 'typescript';
 
 @Component({
   selector: 'app-calls-history-list',
@@ -25,11 +26,13 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
     
     @ViewChild('response', { read: TemplateRef }) responseTemplate: TemplateRef<any>;
     @ViewChild('body', { read: TemplateRef }) bodyTemplate: TemplateRef<any>;
+    @ViewChild('reRun', { read: TemplateRef }) reRunTemplate: TemplateRef<any>;
     
     dialogRef: MatDialogRef<CallsHistoryListComponent>
 
     callResponse: string;
     callBody: string;
+    reRunResponse: string;
     actionID: string;
 
     constructor(public translate: TranslateService,
@@ -51,6 +54,7 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
     getDataSource() {
         return {
             init: async(params:any) => {
+                this.history = this.addonService.getCallHistory(params);
                 return Promise.resolve({
                     dataView: {
                         Context: {
@@ -248,6 +252,7 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
     }
 
     async getLogs() {
+        this.logs = [];
         this.logsDataSource = this.getLogsDataSource();
     }
 
@@ -261,14 +266,24 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
             actionsType: 'close'
         });
         this.addonService.makeApiCall(data).then((value)=> {
-            dataMsg.content = this.translate.instant('History_ReRun_Success_Content', {response: value})
+            //dataMsg.content = this.translate.instant('History_ReRun_Success_Content', {response: JSON.stringify(value)})
+            this.reRunResponse = value;
+            this.dialogService.openDialog(this.reRunTemplate, undefined).afterClosed().subscribe(() => {
+                this.history = [];
+                this.dataSource = this.getDataSource();
+            });
         }).catch((error) => {
             dataMsg.content = this.translate.instant('History_ReRun_Failed_Content', {error: error})
-        }).finally(()=> {            
             this.dialogService.openDefaultDialog(dataMsg).afterClosed().subscribe(() => {
-                this.history = this.addonService.getCallHistory();
+                this.history = [];
                 this.dataSource = this.getDataSource();
             })
         });
+    }
+
+    clearCallHistory() {
+        this.history = [];
+        this.addonService.clearCallHistory();
+        this.dataSource = this.getDataSource();
     }
 }

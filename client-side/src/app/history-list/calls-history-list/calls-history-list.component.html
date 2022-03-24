@@ -14,7 +14,7 @@
                 class="pep-spacing-element"
                 [sizeType]="'sm'" 
                 [styleType]="'strong'" 
-                (buttonClick)="addonService.clearCallHistory()" 
+                (buttonClick)="clearCallHistory()" 
                 [value]="'Clear History'">
             </pep-button>
         </ng-container>
@@ -61,6 +61,15 @@
     <pep-dialog [title]="'Body_Title' | translate">
         <ng-container pep-dialog-content>
             <ngx-json-viewer [json]="callBody"></ngx-json-viewer>
+        </ng-container>
+    </pep-dialog>
+</ng-template>
+
+<ng-template #reRun>
+    <pep-dialog [title]="'History_ReRun_Dialog_Title' | translate">
+        <ng-container pep-dialog-content>
+            {{'History_ReRun_Success_Content' | translate}}
+            <ngx-json-viewer [json]="reRunResponse"></ngx-json-viewer>
         </ng-container>
     </pep-dialog>
 </ng-template>
