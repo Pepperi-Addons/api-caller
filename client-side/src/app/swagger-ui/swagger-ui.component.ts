@@ -35,17 +35,16 @@ export class SwaggerUiComponent implements OnInit, OnChanges {
   async load() {
     if (this.spec) {
         this.spec.servers = [{
-            "url" : this.session.getPapiBaseUrl(),
-            "description" : "Current Enviroment"
+            "url" : this.session.getPapiBaseUrl()
         }]  
         this.spec.security = [{bearerAuth: []}] 
         this.spec.components = {securitySchemes: {bearerAuth: {type: "http", scheme: "bearer", bearerFormat: "JWT"}}}         
 
         const node = document.getElementById('swagger-ui-item');
-        console.log(node)
         const i = SwaggerUI({
             domNode: node,
             spec: this.spec,
+            filter: true,
             requestInterceptor: (request) => {
                 console.log(request);
                 this.lastCall = { 
@@ -71,6 +70,18 @@ export class SwaggerUiComponent implements OnInit, OnChanges {
                 this.addonService.addCallHistory(call);
                 console.log(response);
             },
+            plugins: [
+              () => {
+                return {
+                  wrapComponents: {
+                    curl: () => () => null,
+                    info: () => () => null,
+                    authorizeBtn: () => () => null,
+                    ServersContainer: () => () => null,
+                  }
+                }
+              }
+            ]
           });
 
           const token = this.session.getIdpToken();
