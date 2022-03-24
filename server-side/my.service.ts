@@ -89,6 +89,19 @@ class MyService {
 
         return this.papiClient.addons.data.uuid(this.addonUUID).table('api_collections').upsert(collection);
     }
+
+    async getLogs(actionID: string): Promise<any> {
+        return this.papiClient.post("/logs", {
+            Groups: [
+                "AsyncAddon",
+                "Addon",
+                "PAPI"
+            ],
+            Fields: "Message, DateTimeStamp,Level",
+            Filter: `ActionUUID LIKE /${actionID}/`,
+            PageSize: 1000,
+        })
+    }
 }
 
 export default MyService;

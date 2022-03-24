@@ -104,3 +104,13 @@ export async function openapi_spec()
         }
     }
 }
+
+export async function logs(client: Client, request: Request) {
+    const service = new MyService(client);
+    const actionID = request.query?.ActionUUID
+    let res: any;
+
+    res = await service.getLogs(actionID);
+
+    return res
+}

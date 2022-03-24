@@ -1,4 +1,4 @@
-<div class="genericListContainer">
+<div class="genericListContainer" *ngIf="!logs">
     <pep-generic-list class="generic-list"
         [title] = "'History_List_Title' | translate"
         [showTopBar]="true" 
@@ -9,6 +9,34 @@
         [showSearch]="false"
         [uuidMapping]="'ActionUUID'"
         >
+    </pep-generic-list>
+</div>
+<div class="genericListContainer" *ngIf="logs">
+    
+    <pep-generic-list class="generic-list"
+        [title] = "'Logs_List_Title' | translate: {actionID: actionID}"
+        [showTopBar]="true" 
+        [dataSource]="logsDataSource" 
+        [inline]="true"
+        [addPadding]="false"
+        [showSearch]="false"
+        >
+        <ng-container right-buttons>
+            <pep-button
+                class="pep-spacing-element"
+                [sizeType]="'sm'" 
+                [styleType]="'weak'" 
+                (buttonClick)="logs = undefined;" 
+                [value]="'Back To List'">
+            </pep-button>
+            <pep-button
+                class="pep-spacing-element"
+                [sizeType]="'sm'" 
+                [styleType]="'strong'" 
+                (buttonClick)="getLogs()" 
+                [value]="'Refresh'">
+            </pep-button>
+        </ng-container>
     </pep-generic-list>
 </div>
 
