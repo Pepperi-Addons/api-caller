@@ -16,7 +16,7 @@ export class AddonComponent implements OnInit {
     
     screenSize: PepScreenSizeType;
     spec: any = undefined;
-    collections: any[] = [];
+    loadCollections: boolean = false;
     callHistory: ApiCall[] = []
 
     constructor(
@@ -44,7 +44,7 @@ export class AddonComponent implements OnInit {
                 break;
             } 
             case 1: {
-                this.collections = await this.addonService.getCollections();
+                this.loadCollections = true;
                 break;
             }
             case 2: {

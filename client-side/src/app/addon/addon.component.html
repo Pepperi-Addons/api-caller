@@ -14,7 +14,7 @@
                 <app-swagger-ui [spec]="spec"></app-swagger-ui>
             </mat-tab>
             <mat-tab label="Collections"> 
-                <app-api-collections [collections]="collections"></app-api-collections>
+                <app-api-collections [load]="loadCollections"></app-api-collections>
             </mat-tab>
             <mat-tab label="History"> 
                 <app-calls-history-list [history]="callHistory"></app-calls-history-list>
