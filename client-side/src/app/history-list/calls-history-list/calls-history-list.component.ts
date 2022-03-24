@@ -73,16 +73,9 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
                                 ReadOnly: true
                             },
                             {
-                                FieldID: 'Timestamp',
-                                Type: 'DateAndTime',
-                                Title: this.translate.instant('Timestamp'),
-                                Mandatory: false,
-                                ReadOnly: true
-                            },
-                            {
-                                FieldID: 'URL',
+                                FieldID: 'Status',
                                 Type: 'TextBox',
-                                Title: this.translate.instant('Url'),
+                                Title: this.translate.instant('Status'),
                                 Mandatory: false,
                                 ReadOnly: true
                             },
@@ -94,28 +87,35 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
                                 ReadOnly: true
                             },
                             {
-                                FieldID: 'Success',
-                                Type: 'ComboBox',
-                                Title: this.translate.instant('Successful'),
+                                FieldID: 'URL',
+                                Type: 'TextBox',
+                                Title: this.translate.instant('Url'),
                                 Mandatory: false,
                                 ReadOnly: true
                             },
+                            {
+                                FieldID: 'Timestamp',
+                                Type: 'DateAndTime',
+                                Title: this.translate.instant('Timestamp'),
+                                Mandatory: false,
+                                ReadOnly: true
+                            }
                         ],
                         Columns: [
                             {
-                                Width: 25
+                                Width: 15
                             },
                             {
-                                Width: 25
+                                Width: 5
                             },
                             {
-                                Width: 25
+                                Width: 7
                             },
                             {
-                                Width: 25
+                                Width: 63
                             },
                             {
-                                Width: 25
+                                Width: 20
                             },
                         ],
           
@@ -123,7 +123,10 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
                         MinimumColumnWidth: 0
                     },
                     totalCount: this.history.length,
-                    items: this.history
+                    items: this.history.map(x => { 
+                        x['Status'] = x.Success ? '✅' : '❌'
+                        return x;
+                    })
                 });
             },
             inputs: () => {
