@@ -1,4 +1,9 @@
 {
     "Title_Addon": "Title of the addon",
-    "History_List_NoDataFound": "Calls History is empty"
+    "History_List_NoDataFound": "Calls History is empty",
+    "History_List_Title": "Calls history list",
+    "Response_Title": "Response.Body object",
+    "Body_Title": "Request.Body object",
+    "Logs_List_Title": "Call logs for {{actionID}}",
+    "Logs_List_NoDataFound":"There are no logs to show at the moment. <br /> Logs can take couple of minutes to show, please use the refresh button to try again"
 }

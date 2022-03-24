@@ -2,13 +2,13 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewCh
 import { TranslateService } from '@ngx-translate/core';
 import { AddonService } from '../../addon/addon.service';
 
-import { IPepGenericListActions, IPepGenericListDataSource, IPepGenericListPager, PepGenericListService } from "@pepperi-addons/ngx-composite-lib/generic-list";
+import { IPepGenericListActions, IPepGenericListDataSource, PepGenericListService, IPepGenericListTableInputs } from "@pepperi-addons/ngx-composite-lib/generic-list";
 
 import { PepSelectionData } from "@pepperi-addons/ngx-lib/list";
-import { PepMenuItem } from "@pepperi-addons/ngx-lib/menu";
-import { PepDialogData, PepDialogService } from "@pepperi-addons/ngx-lib/dialog";
+import { PepDialogService } from "@pepperi-addons/ngx-lib/dialog";
 import { ApiCall } from 'src/app/swagger-ui/swagger-ui.component';
 import { MatDialogRef } from '@angular/material/dialog';
+import { PepCustomizationService } from '@pepperi-addons/ngx-lib';
 
 @Component({
   selector: 'app-calls-history-list',
@@ -18,7 +18,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class CallsHistoryListComponent implements OnInit, OnChanges {
 
     @Input() history: ApiCall[] = [];
+    logs: any = undefined;
     dataSource:IPepGenericListDataSource = this.getDataSource();
+    logsDataSource:IPepGenericListDataSource;
 
     
     @ViewChild('response', { read: TemplateRef }) responseTemplate: TemplateRef<any>;
@@ -28,11 +30,13 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
 
     callResponse: string;
     callBody: string;
+    actionID: string;
 
     constructor(public translate: TranslateService,
                 public addonService: AddonService,
                 public dialogService: PepDialogService,
                 public genericListService: PepGenericListService,
+                public customizationService: PepCustomizationService
                 ) { }
 
 
@@ -66,7 +70,7 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
                             },
                             {
                                 FieldID: 'Timestamp',
-                                Type: 'TextBox',
+                                Type: 'DateAndTime',
                                 Title: this.translate.instant('Timestamp'),
                                 Mandatory: false,
                                 ReadOnly: true
@@ -130,16 +134,85 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
         } as IPepGenericListDataSource
     }
 
+    getLogsDataSource() {
+        return {
+            init: async(params:any) => {
+                return Promise.resolve({
+                    dataView: {
+                        Context: {
+                            Name: '',
+                            Profile: { InternalID: 0 },
+                            ScreenSize: 'Landscape'
+                        },
+                        Type: 'Grid',
+                        Title: 'Call logs',
+                        Fields: [
+                            {
+                                FieldID: 'Message',
+                                Type: 'TextBox',
+                                Title: this.translate.instant('Message'),
+                                Mandatory: false,
+                                ReadOnly: true
+                            },
+                            {
+                                FieldID: 'DateTimeStamp',
+                                Type: 'DateAndTime',
+                                Title: this.translate.instant('Timestamp'),
+                                Mandatory: false,
+                                ReadOnly: true
+                            },
+                            {
+                                FieldID: 'Level',
+                                Type: 'TextBox',
+                                Title: this.translate.instant('Level'),
+                                Mandatory: false,
+                                ReadOnly: true
+                            },
+                        ],
+                        Columns: [
+                            {
+                                Width: 80
+                            },
+                            {
+                                Width: 10
+                            },
+                            {
+                                Width: 10
+                            },
+                        ],
+          
+                        FrozenColumnsCount: 0,
+                        MinimumColumnWidth: 0
+                    },
+                    totalCount: this.logs.length,
+                    items: this.logs
+                });
+            },
+            inputs: () => {
+                
+                return Promise.resolve({
+                    pager: {
+                        type: 'pages',
+                        size: 11
+                        
+                    },
+                    selectionType: 'none',
+                    noDataFoundMsg: this.translate.instant('Logs_List_NoDataFound')
+                });
+            },
+        } as IPepGenericListDataSource
+    }
+
     actions: IPepGenericListActions = {
         get: async (data: PepSelectionData) => {
             const actions = [];
             if (data && data.rows.length == 1) {
-                const itemKey = data.rows[0];
-                const rowData = this.history.find(item => item.ActionUUID === itemKey);
+                this.actionID = data.rows[0];
+                const rowData = this.getSelectedRowData();
                 actions.push({
                     title: this.translate.instant('Logs'),
                     handler: async (objs) => {
-                        this.openLogsPopup(objs.rows[0]);
+                        this.getLogs();
                     }
                 },
                 {
@@ -166,8 +239,14 @@ export class CallsHistoryListComponent implements OnInit, OnChanges {
         }
     }
 
-    openLogsPopup(actionID: string) {
-        console.log('showing logs for action:', actionID);
+    async getLogs() {
+        const rowData: ApiCall = this.getSelectedRowData();
+        this.logs = await this.addonService.getCloudWatchLogs(this.actionID, rowData.Timestamp);
+        this.logsDataSource = this.getLogsDataSource();
+    }
+
+    getSelectedRowData(): ApiCall {
+        return this.history.find(item => item.ActionUUID === this.actionID);
     }
 
 }
