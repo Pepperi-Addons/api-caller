@@ -1,4 +1,4 @@
-<pep-dialog [title]="'Edit API Collection'">
+<pep-dialog [title]="editMode ? 'Edit API Collection' : 'Create an API Collection'">
     <ng-container pep-dialog-content>
        <pep-textbox [(value)]="collection.Name" [label]="'Name'" [mandatory]="true"></pep-textbox>
        <pep-textarea [(value)]="collection.Description" [label]="'Description'" [rowSpan]="2" ></pep-textarea>

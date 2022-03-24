@@ -54,20 +54,7 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
               const key = obj.rows[0];
               if (key) {
                 const collection = this.collections.find(c => c.Key == key);
-                const config = this.dialogService.getDialogConfig({}, 'inline');
-                const formData = {
-                  collection: collection
-                }
-                config.data = new PepDialogData({
-                    content: ApiCollectionFormComponent
-                })
-                this.dialogService.openDialog(ApiCollectionFormComponent, formData, config).afterClosed().subscribe(async (value) => {
-                    if (value) {
-                        console.log('value got:', value);
-                        await this.addonService.updateCollection(value);
-                        await this.reload();
-                    }
-                });
+                this.openForm(collection);
               }
             }
           });
@@ -211,10 +198,28 @@ export class ApiCollectionsComponent implements OnInit, OnChanges {
   }
 
   createCollection() {
+    this.openForm(undefined);
   }
 
   async reload() {
     this.collections = await this.addonService.getCollections();
     this.dataSource = this.getDataSource();
   }
+
+  openForm(collection: any) {
+    const config = this.dialogService.getDialogConfig({}, 'inline');
+      const formData = {
+        collection: collection
+      }
+      config.data = new PepDialogData({
+          content: ApiCollectionFormComponent
+      })
+      this.dialogService.openDialog(ApiCollectionFormComponent, formData, config).afterClosed().subscribe(async (value) => {
+          if (value) {
+              console.log('value got:', value);
+              await this.addonService.updateCollection(value);
+              await this.reload();
+          }
+      });
+    }
 }
