@@ -55,7 +55,7 @@
         "single-spa": "^5.9.1",
         "single-spa-angular": "^5.0.2",
         "stream-browserify": "^3.0.0",
-        "swagger-ui": "^4.8.1",
+        "swagger-ui": "^4.18.2",
         "tslib": "^2.0.0",
         "uuid": "^8.3.2",
         "zone.js": "~0.11.4"
